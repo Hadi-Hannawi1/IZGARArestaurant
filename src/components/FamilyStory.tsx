@@ -1,111 +1,93 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { LazyImage } from './LazyImage';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const FamilyStory = () => {
+export const FamilyStory = () => {
   const { t } = useLanguage();
-  const timelineRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.timeline-photo-left', {
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: 'top 60%',
-        },
-        opacity: 0,
-        scale: 0.9,
-        duration: 1,
-        delay: 0.5,
-      });
-
-      gsap.from('.timeline-photo-right', {
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: 'top 60%',
-        },
-        opacity: 0,
-        scale: 0.9,
-        duration: 1,
-        delay: 1,
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="bg-beige py-32 px-4 sm:px-8 lg:px-20">
-      <div className="max-w-[1440px] mx-auto">
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-charcoal text-center mb-16">
-          {t('story.headline')}
-        </h2>
+    <section 
+      id="story" 
+      ref={sectionRef}
+      className="py-20 px-6 md:px-12 lg:px-24 bg-warm-beige"
+    >
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="font-playfair text-5xl md:text-6xl text-charcoal mb-6">
+            {t('story.title')}
+          </h2>
+          <p className="font-inter text-xl text-charcoal/70 max-w-2xl mx-auto">
+            {t('story.subtitle')}
+          </p>
+        </div>
 
-        <div ref={timelineRef} className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 mb-16">
-          {/* 1990 Photo */}
-          <div className="timeline-photo-left relative w-full max-w-md">
-            <div className="rounded-2xl overflow-hidden border-8 border-cream shadow-medium">
-              <img
-                src="https://source.unsplash.com/600x700/?vintage,restaurant,retro,1990s"
-                alt="1990"
-                className="w-full h-auto object-cover"
-                loading="lazy"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-4">
-                <div className="text-3xl font-display font-bold text-white">{t('story.year1')}</div>
-                <div className="text-sm font-body text-white">{t('story.caption1')}</div>
+        {/* Timeline */}
+        <div className="relative">
+          {/* Timeline Line */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-golden-yellow/30" />
+
+          {/* 1990s */}
+          <div className="mb-16 grid md:grid-cols-2 gap-8 items-center">
+            <div className="md:text-right">
+              <div className="bg-white p-8 rounded-2xl shadow-lg inline-block">
+                <span className="font-playfair text-4xl text-flame-red font-bold">
+                  {t('story.timeline.1990.year')}
+                </span>
+                <h3 className="font-playfair text-2xl text-charcoal mt-2 mb-4">
+                  {t('story.timeline.1990.title')}
+                </h3>
+                <p className="font-inter text-charcoal/70">
+                  {t('story.timeline.1990.description')}
+                </p>
               </div>
+            </div>
+            <div className="relative rounded-2xl overflow-hidden shadow-xl">
+              <LazyImage
+                src="/images/story/1990s-restaurant.jpeg"
+                alt="1990s Restaurant"
+                className="w-full h-80 object-cover"
+              />
             </div>
           </div>
 
-          {/* Timeline Arrow */}
-          <div className="hidden lg:block">
-            <svg width="100" height="4" viewBox="0 0 100 4" fill="none">
-              <line x1="0" y1="2" x2="100" y2="2" stroke="url(#gradient)" strokeWidth="4"/>
-              <defs>
-                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#D32F2F" />
-                  <stop offset="100%" stopColor="#FFA726" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          {/* 2024 Photo */}
-          <div className="timeline-photo-right relative w-full max-w-md">
-            <div className="rounded-2xl overflow-hidden border-8 border-cream shadow-medium">
-              <img
-                src="https://source.unsplash.com/600x700/?modern,restaurant,kitchen,contemporary"
-                alt="2024"
-                className="w-full h-auto object-cover"
-                loading="lazy"
+          {/* 2024 */}
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="relative rounded-2xl overflow-hidden shadow-xl md:order-1">
+              <LazyImage
+                src="/images/story/modern-restaurant.jpeg"
+                alt="Modern Restaurant"
+                className="w-full h-80 object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-4">
-                <div className="text-3xl font-display font-bold text-white">{t('story.year2')}</div>
-                <div className="text-sm font-body text-white">{t('story.caption2')}</div>
+            </div>
+            <div className="md:order-2">
+              <div className="bg-white p-8 rounded-2xl shadow-lg inline-block">
+                <span className="font-playfair text-4xl text-flame-red font-bold">
+                  {t('story.timeline.2024.year')}
+                </span>
+                <h3 className="font-playfair text-2xl text-charcoal mt-2 mb-4">
+                  {t('story.timeline.2024.title')}
+                </h3>
+                <p className="font-inter text-charcoal/70">
+                  {t('story.timeline.2024.description')}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="text-center max-w-3xl mx-auto">
-          <p className="text-lg font-body text-charcoal/80 leading-relaxed mb-8">
-            {t('story.body')}
-          </p>
-          <Link
-            to="/story"
-            className="inline-block text-base font-body font-semibold text-primary hover:underline"
+        {/* CTA */}
+        <div className="text-center mt-16">
+          <a
+            href="#story"
+            className="inline-flex items-center gap-2 bg-charcoal hover:bg-flame-red text-white px-10 py-4 rounded-full font-inter font-bold text-lg transition-all duration-300 shadow-lg"
           >
             {t('story.cta')}
-          </Link>
+            <span>→</span>
+          </a>
         </div>
       </div>
     </section>
   );
 };
-
-export default FamilyStory;

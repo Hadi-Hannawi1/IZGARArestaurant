@@ -1,133 +1,146 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { dishes, getUnsplashImage } from '../data/dishes';
+import { LazyImage } from './LazyImage';
 
-gsap.registerPlugin(ScrollTrigger);
+const dishes = [
+  {
+    id: 1,
+    name: 'Kebab Chef',
+    nameEn: 'Chef Kebab',
+    description: 'Notre signature : feta, carottes râpées, grenades',
+    descriptionEn: 'Our signature: feta, grated carrots, pomegranates',
+    price: '€12.90',
+    image: '/images/dishes/kebab-chef.jpeg',
+    signature: true,
+  },
+  {
+    id: 2,
+    name: 'Kebab Classique',
+    nameEn: 'Classic Kebab',
+    description: 'Le classique revisité avec nos ingrédients maison',
+    descriptionEn: 'The classic revisited with our homemade ingredients',
+    price: '€9.90',
+    image: '/images/dishes/kebab-classic.jpeg',
+    signature: false,
+  },
+  {
+    id: 3,
+    name: 'Adana Kebab',
+    nameEn: 'Adana Kebab',
+    description: 'Brochettes épicées grillées sur notre grill horizontal',
+    descriptionEn: 'Spicy skewers grilled on our horizontal grill',
+    price: '€13.90',
+    image: '/images/dishes/adana-kebab.jpeg',
+    signature: true,
+  },
+  {
+    id: 4,
+    name: 'Lahmacun',
+    nameEn: 'Lahmacun',
+    description: 'Pizza turque fine et croustillante',
+    descriptionEn: 'Thin and crispy Turkish pizza',
+    price: '€8.90',
+    image: '/images/dishes/lahmacun.jpeg',
+    signature: false,
+  },
+  {
+    id: 5,
+    name: 'Durum Poulet',
+    nameEn: 'Chicken Durum',
+    description: 'Wrap généreux avec poulet mariné maison',
+    descriptionEn: 'Generous wrap with homemade marinated chicken',
+    price: '€10.90',
+    image: '/images/dishes/chicken-durum.jpeg',
+    signature: false,
+  },
+  {
+    id: 6,
+    name: 'Baklava',
+    nameEn: 'Baklava',
+    description: 'Dessert traditionnel turc au miel et pistaches',
+    descriptionEn: 'Traditional Turkish dessert with honey and pistachios',
+    price: '€5.90',
+    image: '/images/dishes/Bakalava.jpeg',
+    signature: false,
+  },
+];
 
-const SignatureDishes = () => {
-  const { language, t } = useLanguage();
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    const ctx = gsap.context(() => {
-      // Horizontal scroll tied to vertical scroll
-      const cards = gsap.utils.toArray<HTMLElement>('.dish-card');
-
-      cards.forEach((card) => {
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: 'left 90%',
-            end: 'left 10%',
-            horizontal: true,
-          },
-          scale: 0.9,
-          opacity: 0,
-          duration: 0.6,
-        });
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+export const SignatureDishes = () => {
+  const { t, language } = useLanguage();
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="dishes-section bg-cream py-32 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20">
+    <section 
+      id="dishes" 
+      ref={sectionRef}
+      className="py-20 px-6 md:px-12 lg:px-24 bg-cream"
+    >
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-charcoal mb-4">
-            {t('dishes.headline')}
+          <h2 className="font-playfair text-5xl md:text-6xl text-charcoal mb-6">
+            {t('dishes.title')}
           </h2>
-          <p className="text-lg sm:text-xl font-body text-charcoal/70">
-            {t('dishes.subheadline')}
+          <p className="font-inter text-xl text-charcoal/70 max-w-2xl mx-auto">
+            {t('dishes.subtitle')}
           </p>
         </div>
 
-        {/* Horizontal Scrolling Carousel */}
-        <div
-          ref={carouselRef}
-          className="dishes-carousel flex gap-8 overflow-x-auto pb-8 px-4 scroll-smooth"
-          style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: '#D32F2F rgba(33,33,33,0.1)',
-          }}
-        >
+        {/* Dishes Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {dishes.map((dish) => (
             <div
               key={dish.id}
-              className="dish-card flex-shrink-0 w-[300px] sm:w-[350px] lg:w-[400px] bg-white rounded-2xl shadow-medium hover:shadow-heavy hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden"
+              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
             >
               {/* Image */}
-              <div className="h-80 overflow-hidden">
-                <img
-                  src={getUnsplashImage(dish.imageQuery, 800, 600)}
-                  alt={language === 'fr' ? dish.nameFr : dish.nameEn}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
+              <div className="relative h-64 overflow-hidden">
+                <LazyImage
+                  src={dish.image}
+                  alt={language === 'fr' ? dish.name : dish.nameEn}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-              </div>
-
-              {/* Content */}
-              <div className="p-8">
+                
                 {/* Signature Badge */}
-                {dish.isSignature && (
-                  <div className="inline-block bg-primary text-white text-xs font-body font-semibold px-3 py-1.5 rounded-lg uppercase mb-4">
+                {dish.signature && (
+                  <div className="absolute top-4 right-4 bg-flame-red text-white px-4 py-2 rounded-full text-sm font-inter font-bold shadow-lg">
                     {t('dishes.signature')}
                   </div>
                 )}
+              </div>
 
-                {/* Dish Name */}
-                <h3 className="text-2xl sm:text-3xl font-display font-bold text-charcoal mb-3">
-                  {language === 'fr' ? dish.nameFr : dish.nameEn}
+              {/* Content */}
+              <div className="p-6">
+                <h3 className="font-playfair text-2xl text-charcoal mb-2">
+                  {language === 'fr' ? dish.name : dish.nameEn}
                 </h3>
-
-                {/* Description */}
-                <p className="text-base font-body text-charcoal/70 line-clamp-2 mb-6 leading-relaxed">
-                  {language === 'fr' ? dish.descriptionFr : dish.descriptionEn}
+                <p className="font-inter text-charcoal/70 mb-4">
+                  {language === 'fr' ? dish.description : dish.descriptionEn}
                 </p>
-
-                {/* Price */}
-                <div className="text-2xl font-body font-bold text-primary mb-4">
-                  {dish.price}
-                </div>
-
-                {/* Dietary Icons */}
-                <div className="flex gap-2">
-                  {dish.isVegetarian && <span className="text-xl">🌱</span>}
-                  {dish.isGlutenFree && <span className="text-xl">🌾</span>}
-                  {dish.isSpicy && <span className="text-xl">🌶️</span>}
+                <div className="flex items-center justify-between">
+                  <span className="font-playfair text-3xl text-flame-red font-bold">
+                    {dish.price}
+                  </span>
+                  <button className="bg-golden-yellow hover:bg-flame-red text-white px-6 py-2 rounded-full font-inter font-semibold transition-colors duration-300">
+                    {t('dishes.order')}
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Custom Scrollbar Styles */}
-      <style>{`
-        .dishes-carousel::-webkit-scrollbar {
-          height: 8px;
-        }
-        .dishes-carousel::-webkit-scrollbar-track {
-          background: rgba(33, 33, 33, 0.1);
-          border-radius: 4px;
-        }
-        .dishes-carousel::-webkit-scrollbar-thumb {
-          background: #D32F2F;
-          border-radius: 4px;
-        }
-        .dishes-carousel::-webkit-scrollbar-thumb:hover {
-          background: #B71C1C;
-        }
-      `}</style>
+        {/* View Menu CTA */}
+        <div className="text-center mt-16">
+          <a
+            href="/menu"
+            className="inline-flex items-center gap-2 bg-charcoal hover:bg-flame-red text-white px-10 py-4 rounded-full font-inter font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-2xl"
+          >
+            {t('dishes.viewMenu')}
+            <span>→</span>
+          </a>
+        </div>
+      </div>
     </section>
   );
 };
-
-export default SignatureDishes;

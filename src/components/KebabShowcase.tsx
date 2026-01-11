@@ -1,122 +1,98 @@
-import { useEffect, useRef } from 'react';
-import { IoFlame, IoCheckmarkCircle, IoEye } from 'react-icons/io5';
+import { useRef, useEffect } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { LazyImage } from './LazyImage';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLanguage } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const KebabShowcase = () => {
+export const KebabShowcase = () => {
   const { t } = useLanguage();
-  const kebabImageRef = useRef<HTMLImageElement>(null);
-  const badgesRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const grillRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Rotate kebab as user scrolls
-      if (kebabImageRef.current) {
-        gsap.to(kebabImageRef.current, {
+      // Rotate the grill on scroll
+      if (grillRef.current) {
+        gsap.to(grillRef.current, {
+          rotation: 360,
           scrollTrigger: {
-            trigger: '.kebab-showcase',
+            trigger: sectionRef.current,
             start: 'top center',
             end: 'bottom center',
             scrub: 1,
-            onUpdate: (self) => {
-              const rotation = self.progress * 360;
-              const hueRotate = self.progress * 30;
-              const brightness = 1 - self.progress * 0.2;
-
-              gsap.set(kebabImageRef.current, {
-                rotation: rotation,
-                filter: `hue-rotate(${hueRotate}deg) brightness(${brightness}) contrast(1.1) saturate(1.2)`,
-              });
-            },
           },
         });
       }
-
-      // Badges fade in with stagger
-      gsap.from('.benefit-badge', {
-        scrollTrigger: {
-          trigger: badgesRef.current,
-          start: 'top 80%',
-        },
-        y: 50,
-        opacity: 0,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: 'power2.out',
-      });
-    });
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="kebab-showcase bg-charcoal py-40 px-4 sm:px-8 lg:px-20">
-      <div className="max-w-[1440px] mx-auto flex flex-col items-center">
-        {/* Section Headline */}
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-cream text-center mb-6 max-w-4xl">
-          {t('kebab.headline')}
+    <section 
+      id="kebab-showcase" 
+      ref={sectionRef}
+      className="py-20 px-6 md:px-12 lg:px-24 bg-charcoal text-white"
+    >
+      <div className="max-w-7xl mx-auto text-center">
+        {/* Header */}
+        <h2 className="font-playfair text-5xl md:text-6xl mb-6">
+          {t('kebabShowcase.title')}
         </h2>
-
-        {/* Subtext */}
-        <p className="text-lg sm:text-xl font-body text-cream/70 text-center mb-20">
-          {t('kebab.subheadline')}
+        <p className="font-inter text-xl text-white/80 mb-16 max-w-2xl mx-auto">
+          {t('kebabShowcase.subtitle')}
         </p>
 
-        {/* Kebab Visual */}
-        <div className="kebab-visual w-full max-w-[800px] h-[300px] sm:h-[400px] lg:h-[500px] flex items-center justify-center mb-16">
-          <img
-            ref={kebabImageRef}
-            src="https://www.genspark.ai/api/files/s/htobWYwL"
-            alt="Horizontal Kebab Grill"
-            className="w-full h-full object-contain rounded-2xl shadow-[0_8px_24px_rgba(255,167,38,0.3)]"
-            loading="lazy"
-          />
+        {/* Rotating Grill */}
+        <div className="mb-16">
+          <div 
+            ref={grillRef}
+            className="w-full max-w-3xl mx-auto"
+          >
+            <LazyImage
+              src="/images/kebab-showcase/horizontal-grill.png"
+              alt="Horizontal Turkish Kebab Grill"
+              className="w-full h-auto"
+            />
+          </div>
         </div>
 
-        {/* Three Benefit Badges */}
-        <div
-          ref={badgesRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl"
-        >
-          {/* Badge 1 */}
-          <div className="benefit-badge bg-cream/10 backdrop-blur-md border border-cream/20 rounded-2xl p-8 flex flex-col items-center text-center">
-            <IoFlame className="text-4xl text-secondary mb-4" />
-            <h3 className="text-xl font-body font-semibold text-cream mb-3">
-              {t('kebab.benefit1.title')}
-            </h3>
-            <p className="text-sm font-body text-cream/70">
-              {t('kebab.benefit1.desc')}
-            </p>
-          </div>
-
-          {/* Badge 2 */}
-          <div className="benefit-badge bg-cream/10 backdrop-blur-md border border-cream/20 rounded-2xl p-8 flex flex-col items-center text-center">
-            <IoCheckmarkCircle className="text-4xl text-secondary mb-4" />
-            <h3 className="text-xl font-body font-semibold text-cream mb-3">
-              {t('kebab.benefit2.title')}
-            </h3>
-            <p className="text-sm font-body text-cream/70">
-              {t('kebab.benefit2.desc')}
-            </p>
-          </div>
-
-          {/* Badge 3 */}
-          <div className="benefit-badge bg-cream/10 backdrop-blur-md border border-cream/20 rounded-2xl p-8 flex flex-col items-center text-center sm:col-span-2 lg:col-span-1">
-            <IoEye className="text-4xl text-secondary mb-4" />
-            <h3 className="text-xl font-body font-semibold text-cream mb-3">
-              {t('kebab.benefit3.title')}
-            </h3>
-            <p className="text-sm font-body text-cream/70">
-              {t('kebab.benefit3.desc')}
-            </p>
-          </div>
+        {/* Benefits Grid */}
+        <div className="grid md:grid-cols-3 gap-8 mt-16">
+          {[
+            {
+              icon: '🔥',
+              titleKey: 'kebabShowcase.benefit1.title',
+              descKey: 'kebabShowcase.benefit1.description',
+            },
+            {
+              icon: '👨‍🍳',
+              titleKey: 'kebabShowcase.benefit2.title',
+              descKey: 'kebabShowcase.benefit2.description',
+            },
+            {
+              icon: '⏰',
+              titleKey: 'kebabShowcase.benefit3.title',
+              descKey: 'kebabShowcase.benefit3.description',
+            },
+          ].map((benefit, index) => (
+            <div
+              key={index}
+              className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
+            >
+              <div className="text-6xl mb-4">{benefit.icon}</div>
+              <h3 className="font-playfair text-2xl mb-3 text-golden-yellow">
+                {t(benefit.titleKey)}
+              </h3>
+              <p className="font-inter text-white/70">
+                {t(benefit.descKey)}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 };
-
-export default KebabShowcase;

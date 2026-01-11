@@ -38,3 +38,27 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #FFA726;
 }
+
+/* Lazy Load Image Optimization */
+.lazy-load-image-background {
+  background-color: #F5F5DC !important;
+}
+
+.lazy-load-image-loaded {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Image rendering optimization */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}

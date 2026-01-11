@@ -1,102 +1,65 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { LazyImage } from './LazyImage';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const Welcome = () => {
+export const Welcome = () => {
   const { t } = useLanguage();
-  const textRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Fade in from left (text)
-      gsap.from(textRef.current, {
-        scrollTrigger: {
-          trigger: textRef.current,
-          start: 'top 70%',
-        },
-        x: -50,
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.out',
-      });
-
-      // Slide in from right (image)
-      gsap.from(imageRef.current, {
-        scrollTrigger: {
-          trigger: imageRef.current,
-          start: 'top 70%',
-        },
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.2,
-        ease: 'power2.out',
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section
-      id="welcome"
-      className="bg-beige py-32 px-4 sm:px-8 lg:px-20"
+    <section 
+      id="welcome" 
+      ref={sectionRef}
+      className="py-20 px-6 md:px-12 lg:px-24 bg-cream"
     >
-      <div className="max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-          {/* Text Content */}
-          <div ref={textRef} className="space-y-6">
-            {/* Overline */}
-            <div className="text-sm font-body font-semibold text-primary uppercase tracking-wider">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Text Content */}
+          <div className="space-y-6">
+            <p className="text-golden-yellow font-inter text-sm uppercase tracking-widest">
               {t('welcome.overline')}
-            </div>
-
-            {/* Headline */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-charcoal leading-tight">
-              {t('welcome.headline')}
+            </p>
+            
+            <h2 className="font-playfair text-5xl md:text-6xl text-charcoal leading-tight">
+              {t('welcome.title')}
             </h2>
-
-            {/* Subheadline */}
-            <h3 className="text-xl sm:text-2xl font-body text-charcoal/70">
-              {t('welcome.subheadline')}
+            
+            <h3 className="font-inter text-2xl text-flame-red font-semibold">
+              {t('welcome.subtitle')}
             </h3>
-
-            {/* Body Text */}
-            <div className="space-y-6 text-lg font-body text-charcoal leading-relaxed">
+            
+            <div className="space-y-4 text-charcoal/80 font-inter text-lg leading-relaxed">
               <p>{t('welcome.paragraph1')}</p>
               <p>{t('welcome.paragraph2')}</p>
               <p>{t('welcome.paragraph3')}</p>
             </div>
-
-            {/* CTA Link */}
-            <Link
-              to="/story"
-              className="inline-block text-base font-body font-semibold text-primary hover:underline transition-all"
+            
+            <a
+              href="#story"
+              className="inline-flex items-center gap-2 font-inter font-semibold text-flame-red hover:text-golden-yellow transition-colors duration-300 group"
             >
               {t('welcome.cta')}
-            </Link>
+              <span className="transform group-hover:translate-x-2 transition-transform duration-300">
+                →
+              </span>
+            </a>
           </div>
 
-          {/* Image */}
-          <div ref={imageRef} className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-medium border-8 border-cream">
-              <img
-                src="https://source.unsplash.com/800x900/?turkish,restaurant,chef,kitchen"
-                alt="Izgara restaurant owner"
-                className="w-full h-auto object-cover"
-                loading="lazy"
+          {/* Right: Image */}
+          <div className="relative">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-cream">
+              <LazyImage
+                src="/images/welcome/owner.jpeg"
+                alt="Izgara Restaurant Owner"
+                className="w-full h-[600px] object-cover"
               />
             </div>
+            
+            {/* Decorative Element */}
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-golden-yellow rounded-full opacity-20 blur-3xl -z-10" />
           </div>
         </div>
       </div>
     </section>
   );
 };
-
-export default Welcome;

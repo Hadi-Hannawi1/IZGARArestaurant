@@ -18,6 +18,14 @@ export default {
         'inter': ['Inter', 'sans-serif'],
         'pacifico': ['Pacifico', 'cursive'],
       },
+      letterSpacing: {
+        'widest': '0.3em',
+        'ultra': '0.5em',
+      },
+      dropShadow: {
+        'text': '0 8px 24px rgba(0, 0, 0, 0.8)',
+        'text-lg': '0 12px 32px rgba(0, 0, 0, 0.9)',
+      },
     },
   },
   plugins: [],

@@ -6,7 +6,6 @@ import FamilyStory from '../components/FamilyStory';
 import Ingredients from '../components/Ingredients';
 import Location from '../components/Location';
 import Instagram from '../components/Instagram';
-import Reservation from '../components/Reservation';
 
 const Home = () => {
   return (
@@ -19,7 +18,6 @@ const Home = () => {
       <Ingredients />
       <Location />
       <Instagram />
-      <Reservation />
     </div>
   );
 };

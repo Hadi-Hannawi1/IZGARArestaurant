@@ -11,7 +11,6 @@ const Hero = () => {
   const subtitleRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -24,12 +23,12 @@ const Hero = () => {
           .map((char) => `<span class="inline-block">${char === ' ' ? '&nbsp;' : char}</span>`)
           .join('');
 
-        // Animate letters
+        // Animate letters with stagger
         gsap.from(titleElement.querySelectorAll('span'), {
-          y: 100,
+          y: 120,
           opacity: 0,
-          stagger: 0.1,
-          duration: 1,
+          stagger: 0.08,
+          duration: 0.9,
           ease: 'power3.out',
           delay: 0.3,
         });
@@ -38,8 +37,8 @@ const Hero = () => {
       // Animate tagline
       gsap.from(taglineRef.current, {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
+        y: 40,
+        duration: 1,
         delay: 1.5,
         ease: 'power2.out',
       });
@@ -47,26 +46,37 @@ const Hero = () => {
       // Animate subtitle
       gsap.from(subtitleRef.current, {
         opacity: 0,
-        y: 20,
-        duration: 0.8,
+        y: 25,
+        duration: 0.9,
         delay: 1.8,
         ease: 'power2.out',
       });
 
-      // Animate CTAs
-      gsap.from(ctaRef.current?.children || [], {
+      // Animate CTA button
+      gsap.from(ctaRef.current, {
         opacity: 0,
-        y: 30,
-        stagger: 0.2,
-        duration: 0.8,
-        delay: 2.1,
+        y: 35,
+        duration: 0.9,
+        delay: 2.2,
         ease: 'power2.out',
       });
 
+      // Subtle pulse on CTA (FIXED - TypeScript safe)
+      const ctaButton = ctaRef.current?.querySelector('a');
+      if (ctaButton) {
+        gsap.to(ctaButton, {
+          scale: 1.03,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'power1.inOut',
+        });
+      }
+
       // Scroll indicator bounce
       gsap.to(scrollRef.current, {
-        y: 10,
-        duration: 0.8,
+        y: 15,
+        duration: 1.2,
         repeat: -1,
         yoyo: true,
         ease: 'power1.inOut',
@@ -83,14 +93,6 @@ const Hero = () => {
     }
   };
 
-  const scrollToReservation = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const reservationSection = document.getElementById('reservation');
-    if (reservationSection) {
-      reservationSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* Video Background */}
@@ -104,64 +106,63 @@ const Hero = () => {
         <source src="/videos/hero-kebab.mp4" type="video/mp4" />
       </video>
 
-      {/* Dark Overlay */}
+      {/* Dark Overlay with Enhanced Gradient */}
       <div
         className="absolute inset-0 z-[1]"
         style={{
           background:
-            'radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%)',
+            'radial-gradient(circle at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.75) 100%)',
         }}
       />
 
       {/* Content */}
-      <div
-        ref={contentRef}
-        className="relative z-[2] h-full flex flex-col items-center justify-center px-4 sm:px-8 text-center"
-      >
-        {/* Title */}
+      <div className="relative z-[2] h-full flex flex-col items-center justify-center px-4 sm:px-8 text-center">
+        
+        {/* Title - Enhanced Typography */}
         <div
           ref={titleRef}
-          className="text-6xl sm:text-7xl lg:text-[96px] font-display font-black text-cream mb-6"
+          className="text-7xl sm:text-8xl md:text-9xl lg:text-[180px] font-playfair font-black text-cream mb-8 leading-none"
           style={{
-            letterSpacing: '0.5rem',
-            textShadow: '0 4px 8px rgba(0,0,0,0.5)',
+            letterSpacing: '0.18em',
+            textShadow: '0 10px 30px rgba(0,0,0,0.9), 0 5px 15px rgba(0,0,0,0.7)',
           }}
         >
           {t('hero.title')}
         </div>
 
-        {/* Tagline */}
+        {/* Tagline - Enhanced */}
         <div
           ref={taglineRef}
-          className="text-xl sm:text-2xl lg:text-3xl font-body font-light text-secondary mb-4 uppercase"
-          style={{ letterSpacing: '0.125rem' }}
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-inter font-light text-golden-yellow mb-6 uppercase"
+          style={{
+            letterSpacing: '0.3em',
+            textShadow: '0 4px 12px rgba(0,0,0,0.8)',
+          }}
         >
           {t('hero.tagline')}
         </div>
 
-        {/* Subtitle */}
+        {/* Subtitle - Enhanced */}
         <div
           ref={subtitleRef}
-          className="text-sm sm:text-base lg:text-lg font-body text-cream/80 mb-12"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl font-inter text-cream/95 mb-16"
+          style={{
+            letterSpacing: '0.05em',
+            textShadow: '0 2px 8px rgba(0,0,0,0.7)',
+          }}
         >
           {t('hero.subtitle')}
         </div>
 
-        {/* CTA Buttons */}
-        <div
-          ref={ctaRef}
-          className="flex flex-col sm:flex-row items-center gap-6"
-        >
-          <button
-            onClick={scrollToReservation}
-            className="w-60 h-14 fire-gradient text-white text-base font-semibold uppercase tracking-wide rounded-lg shadow-glow hover:scale-105 transition-transform"
-          >
-            {t('hero.cta.reserve')}
-          </button>
-
+        {/* Single CTA Button - No Reservation */}
+        <div ref={ctaRef}>
           <Link
             to="/menu"
-            className="w-52 h-14 flex items-center justify-center bg-transparent border-2 border-cream/50 text-cream text-base font-semibold uppercase tracking-wide rounded-lg hover:bg-cream/10 hover:border-cream transition-all"
+            className="inline-block px-14 py-6 bg-gradient-to-r from-flame-red to-golden-yellow text-white text-base sm:text-lg font-inter font-semibold uppercase tracking-widest rounded-lg transition-all duration-500 hover:scale-105"
+            style={{
+              letterSpacing: '0.15em',
+              boxShadow: '0 10px 40px rgba(211, 47, 47, 0.6)',
+            }}
           >
             {t('hero.cta.menu')}
           </Link>
@@ -172,9 +173,9 @@ const Hero = () => {
       <div
         ref={scrollRef}
         onClick={scrollToNext}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-[2] cursor-pointer"
+        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-[2] cursor-pointer"
       >
-        <IoChevronDown className="text-4xl text-secondary/80" />
+        <IoChevronDown className="text-5xl text-golden-yellow/90" />
       </div>
     </section>
   );

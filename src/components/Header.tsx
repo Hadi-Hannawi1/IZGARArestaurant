@@ -1,154 +1,122 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { IoMenu, IoClose } from 'react-icons/io5';
-import { useLanguage } from '../contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { language, toggleLanguage, t } = useLanguage();
-  const location = useLocation();
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [language, setLanguage] = useState<'FR' | 'EN'>('FR');
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { path: '/', label: t('nav.home') },
-    { path: '/menu', label: t('nav.menu') },
-    { path: '/story', label: t('nav.story') },
-    { path: '/gallery', label: t('nav.gallery') },
-    { path: '/contact', label: t('nav.contact') },
-  ];
-
-  const scrollToReservation = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (location.pathname === '/') {
-      const reservationSection = document.getElementById('reservation');
-      if (reservationSection) {
-        reservationSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      window.location.href = '/#reservation';
-    }
-    setIsMobileMenuOpen(false);
+  const navItems = {
+    FR: [
+      { name: 'Accueil', path: '/' },
+      { name: 'Menu', path: '/menu' },
+      { name: 'Notre Histoire', path: '/story' },
+      { name: 'Galerie', path: '/gallery' },
+      { name: 'Contact', path: '/contact' },
+    ],
+    EN: [
+      { name: 'Home', path: '/' },
+      { name: 'Menu', path: '/menu' },
+      { name: 'Our Story', path: '/story' },
+      { name: 'Gallery', path: '/gallery' },
+      { name: 'Contact', path: '/contact' },
+    ],
   };
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-charcoal/95 backdrop-blur-md shadow-medium'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'bg-charcoal/95 backdrop-blur-md shadow-2xl'
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="text-2xl sm:text-3xl font-display font-bold text-cream tracking-wider hover:text-secondary transition-colors"
-          >
-            IZGARA
-          </Link>
+      <nav className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="font-playfair text-2xl md:text-3xl font-bold text-cream hover:text-golden-yellow transition-colors duration-300"
+          style={{ letterSpacing: '0.1em' }}
+        >
+          IZGARA
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navLinks.map((link) => (
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex items-center gap-8">
+          {navItems[language].map((item) => (
+            <li key={item.path}>
               <Link
-                key={link.path}
-                to={link.path}
-                className={`text-base font-body font-medium transition-colors hover:text-secondary ${
-                  location.pathname === link.path
-                    ? 'text-secondary'
-                    : 'text-cream/80'
-                }`}
+                to={item.path}
+                className="font-inter text-sm font-medium text-cream/90 hover:text-golden-yellow transition-colors duration-300 uppercase tracking-wider"
               >
-                {link.label}
+                {item.name}
               </Link>
-            ))}
-          </nav>
+            </li>
+          ))}
+        </ul>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-6">
-            {/* Language Toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="text-sm font-body font-semibold text-cream/80 hover:text-secondary transition-colors"
-            >
-              <span className={language === 'fr' ? 'text-secondary' : ''}>FR</span>
-              <span className="mx-2">|</span>
-              <span className={language === 'en' ? 'text-secondary' : ''}>EN</span>
-            </button>
-
-            {/* Reserve Button */}
-            <button
-              onClick={scrollToReservation}
-              className="px-6 py-3 fire-gradient text-white text-sm font-semibold uppercase tracking-wide rounded-lg shadow-glow hover:scale-105 transition-transform"
-            >
-              {t('nav.reserve')}
-            </button>
-          </div>
+        {/* Language Toggle */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setLanguage(language === 'FR' ? 'EN' : 'FR')}
+            className="font-inter text-sm font-semibold text-cream/80 hover:text-golden-yellow transition-colors duration-300"
+          >
+            <span className={language === 'FR' ? 'text-golden-yellow' : ''}>FR</span>
+            {' | '}
+            <span className={language === 'EN' ? 'text-golden-yellow' : ''}>EN</span>
+          </button>
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-cream text-3xl"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-cream p-2"
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <IoClose /> : <IoMenu />}
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {mobileMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden bg-charcoal/98 backdrop-blur-md border-t border-cream/10">
-          <nav className="flex flex-col px-4 py-6 space-y-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-lg font-body font-medium transition-colors hover:text-secondary py-2 ${
-                  location.pathname === link.path
-                    ? 'text-secondary'
-                    : 'text-cream/80'
-                }`}
-              >
-                {link.label}
-              </Link>
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-charcoal/98 backdrop-blur-lg border-t border-cream/10">
+          <ul className="px-6 py-8 space-y-6">
+            {navItems[language].map((item) => (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block font-inter text-lg font-medium text-cream/90 hover:text-golden-yellow transition-colors duration-300 uppercase tracking-wide"
+                >
+                  {item.name}
+                </Link>
+              </li>
             ))}
-
-            {/* Mobile Language Toggle */}
-            <button
-              onClick={() => {
-                toggleLanguage();
-                setIsMobileMenuOpen(false);
-              }}
-              className="text-left text-lg font-body font-semibold text-cream/80 hover:text-secondary transition-colors py-2"
-            >
-              <span className={language === 'fr' ? 'text-secondary' : ''}>FR</span>
-              <span className="mx-2">|</span>
-              <span className={language === 'en' ? 'text-secondary' : ''}>EN</span>
-            </button>
-
-            {/* Mobile Reserve Button */}
-            <button
-              onClick={scrollToReservation}
-              className="w-full mt-4 px-6 py-4 fire-gradient text-white text-sm font-semibold uppercase tracking-wide rounded-lg shadow-glow"
-            >
-              {t('nav.reserve')}
-            </button>
-          </nav>
+          </ul>
         </div>
       )}
     </header>
   );
-};
-
-export default Header;
+}

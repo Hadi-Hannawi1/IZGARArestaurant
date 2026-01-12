@@ -1,6 +1,5 @@
 import { useRef, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { LazyImage } from './LazyImage';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GiFlame, GiCook, GiAlarmClock } from 'react-icons/gi';
@@ -69,7 +68,7 @@ export const KebabShowcase = () => {
     >
       <div className="max-w-7xl mx-auto text-center">
         {/* Header */}
-        <h2 className="font-playfair text-5xl md:text-6xl mb-6">
+        <h2 className="font-playfair text-5xl md:text-6xl mb-6 text-white">
           {currentLanguage === 'fr' ? 'Notre Grill Horizontal' : 'Our Horizontal Grill'}
         </h2>
         <p className="font-inter text-xl text-white/80 mb-16 max-w-2xl mx-auto">
@@ -114,22 +113,27 @@ export const KebabShowcase = () => {
           <div className="absolute inset-0 bg-gradient-radial from-flame-red/20 via-transparent to-transparent blur-3xl -z-10" />
         </div>
 
-        {/* Scroll Hint */}
-        <p className="font-inter text-sm text-white/50 mb-12 flex items-center justify-center gap-2">
-          <span className="animate-bounce">⬇️</span>
-          {currentLanguage === 'fr' 
-            ? 'Faites défiler pour voir le kebab tourner' 
-            : 'Scroll to see the kebab rotate'}
-        </p>
-
-        {/* Benefits Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mt-16">
+        {/* Benefits Grid - EXPLICIT VISIBILITY */}
+        <div 
+          className="grid md:grid-cols-3 gap-8 mt-16"
+          style={{
+            opacity: 1,
+            visibility: 'visible',
+            display: 'grid',
+            pointerEvents: 'all'
+          }}
+        >
           {benefits.map((benefit, index) => {
             const IconComponent = benefit.icon;
             return (
               <div
                 key={index}
                 className="group p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-golden-yellow/50 transition-all duration-300 hover:scale-105"
+                style={{
+                  opacity: 1,
+                  visibility: 'visible',
+                  display: 'block'
+                }}
               >
                 <div className="flex justify-center mb-6">
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center group-hover:scale-110 transition-transform duration-300">

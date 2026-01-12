@@ -10,35 +10,44 @@ export default function Splash({ onComplete }: SplashProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const decorLineRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Ensure elements are visible first
+    if (!splashRef.current || !titleRef.current || !subtitleRef.current || !decorLineRef.current) {
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: onComplete,
       });
 
-      // Initial state
-      gsap.set([titleRef.current, subtitleRef.current, decorLineRef.current], {
+      // Set initial states
+      gsap.set([titleRef.current, subtitleRef.current], {
         opacity: 0,
         y: 30,
       });
 
-      // Set decorative line initial scale
       gsap.set(decorLineRef.current, {
+        opacity: 0,
         scaleX: 0,
       });
 
-      // Particles float in
-      tl.from('.splash-particle', {
+      gsap.set('.splash-particle', {
         scale: 0,
         opacity: 0,
+      });
+
+      // Animate particles
+      tl.to('.splash-particle', {
+        scale: 1,
+        opacity: 1,
         duration: 1,
         stagger: 0.1,
         ease: 'back.out(1.7)',
       }, 0);
 
-      // Main title dramatic entrance
+      // Animate title
       tl.to(titleRef.current, {
         opacity: 1,
         y: 0,
@@ -46,9 +55,9 @@ export default function Splash({ onComplete }: SplashProps) {
         ease: 'power4.out',
       }, 0.3);
 
-      // Split title letters for individual animation
-      if (titleRef.current) {
-        const letters = titleRef.current.querySelectorAll('.letter');
+      // Animate individual letters
+      const letters = titleRef.current?.querySelectorAll('.letter');
+      if (letters && letters.length > 0) {
         tl.from(letters, {
           opacity: 0,
           y: 50,
@@ -59,7 +68,7 @@ export default function Splash({ onComplete }: SplashProps) {
         }, 0.5);
       }
 
-      // Decorative line expands
+      // Animate decorative line
       tl.to(decorLineRef.current, {
         opacity: 1,
         scaleX: 1,
@@ -67,7 +76,7 @@ export default function Splash({ onComplete }: SplashProps) {
         ease: 'power2.out',
       }, 1);
 
-      // Subtitle fades in
+      // Animate subtitle
       tl.to(subtitleRef.current, {
         opacity: 1,
         y: 0,
@@ -75,13 +84,13 @@ export default function Splash({ onComplete }: SplashProps) {
         ease: 'power2.out',
       }, 1.2);
 
-      // Hold the view
+      // Hold
       tl.to({}, { duration: 1.5 });
 
-      // Fade out everything
+      // Fade out
       tl.to(splashRef.current, {
         opacity: 0,
-        scale: 1.1,
+        scale: 1.05,
         duration: 0.8,
         ease: 'power2.inOut',
       });
@@ -91,7 +100,6 @@ export default function Splash({ onComplete }: SplashProps) {
     return () => ctx.revert();
   }, [onComplete]);
 
-  // Split IZGARA into individual letters
   const title = "IZGARA";
   const letters = title.split('');
 
@@ -103,14 +111,14 @@ export default function Splash({ onComplete }: SplashProps) {
         background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1810 50%, #1a1a1a 100%)',
       }}
     >
-      {/* Animated Particles Background */}
-      <div ref={particlesRef} className="absolute inset-0">
-        <div className="splash-particle absolute top-[10%] left-[15%] w-2 h-2 rounded-full bg-flame-red/30 blur-sm" />
-        <div className="splash-particle absolute top-[20%] right-[20%] w-3 h-3 rounded-full bg-golden-yellow/20 blur-sm" />
-        <div className="splash-particle absolute bottom-[30%] left-[25%] w-2 h-2 rounded-full bg-flame-red/40 blur-sm" />
-        <div className="splash-particle absolute bottom-[15%] right-[30%] w-4 h-4 rounded-full bg-golden-yellow/30 blur-sm" />
-        <div className="splash-particle absolute top-[40%] left-[10%] w-2 h-2 rounded-full bg-flame-red/25 blur-sm" />
-        <div className="splash-particle absolute top-[60%] right-[15%] w-3 h-3 rounded-full bg-golden-yellow/35 blur-sm" />
+      {/* Animated Particles */}
+      <div className="absolute inset-0">
+        <div className="splash-particle absolute top-[10%] left-[15%] w-2 h-2 rounded-full bg-flame-red opacity-30 blur-sm" />
+        <div className="splash-particle absolute top-[20%] right-[20%] w-3 h-3 rounded-full bg-golden-yellow opacity-20 blur-sm" />
+        <div className="splash-particle absolute bottom-[30%] left-[25%] w-2 h-2 rounded-full bg-flame-red opacity-40 blur-sm" />
+        <div className="splash-particle absolute bottom-[15%] right-[30%] w-4 h-4 rounded-full bg-golden-yellow opacity-30 blur-sm" />
+        <div className="splash-particle absolute top-[40%] left-[10%] w-2 h-2 rounded-full bg-flame-red opacity-25 blur-sm" />
+        <div className="splash-particle absolute top-[60%] right-[15%] w-3 h-3 rounded-full bg-golden-yellow opacity-35 blur-sm" />
       </div>
 
       {/* Radial Glow */}
@@ -123,7 +131,7 @@ export default function Splash({ onComplete }: SplashProps) {
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-8">
-        {/* Main Title with 3D effect */}
+        {/* Main Title */}
         <h1
           ref={titleRef}
           className="font-playfair font-black mb-8 select-none"
@@ -144,7 +152,6 @@ export default function Splash({ onComplete }: SplashProps) {
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
                 filter: 'drop-shadow(0 0 20px rgba(211, 47, 47, 0.5)) drop-shadow(0 10px 40px rgba(255, 167, 38, 0.3))',
-                textShadow: '0 5px 30px rgba(211, 47, 47, 0.4)',
               }}
             >
               {letter}
@@ -164,7 +171,7 @@ export default function Splash({ onComplete }: SplashProps) {
           }}
         >
           <div 
-            className="absolute inset-0 animate-pulse"
+            className="absolute inset-0"
             style={{
               background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
               animation: 'shimmer 2s infinite',
@@ -179,14 +186,17 @@ export default function Splash({ onComplete }: SplashProps) {
           style={{
             fontSize: 'clamp(1rem, 3vw, 1.75rem)',
             color: '#FFA726',
-            textShadow: '0 0 30px rgba(255, 167, 38, 0.8), 0 0 60px rgba(211, 47, 47, 0.4)',
+            textShadow: '0 0 30px rgba(255, 167, 38, 0.8)',
           }}
         >
           Paris
         </p>
 
-        {/* Subtitle accent */}
-        <p className="font-inter text-cream/60 text-sm mt-4 tracking-widest">
+        {/* Accent text */}
+        <p 
+          className="font-inter text-cream/60 text-sm mt-4 tracking-widest"
+          style={{ opacity: 0.8 }}
+        >
           Authentic Turkish Cuisine
         </p>
       </div>

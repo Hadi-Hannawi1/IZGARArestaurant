@@ -341,3 +341,20 @@ body.splash-active {
   position: fixed;
   width: 100%;
 }
+
+/* Splash animations */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Prevent scroll during splash */
+body.splash-active {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+}

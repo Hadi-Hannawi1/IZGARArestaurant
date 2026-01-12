@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [language, setLanguage] = useState<'FR' | 'EN'>('FR');
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,13 +41,14 @@ export default function Header() {
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo - ONLY ONE INSTANCE */}
         <Link
           to="/"
-          className="font-playfair text-2xl md:text-3xl font-bold text-cream hover:text-golden-yellow transition-colors duration-300"
+          className="font-playfair text-2xl md:text-3xl font-bold text-cream hover:text-golden-yellow transition-colors duration-300 relative group"
           style={{ letterSpacing: '0.1em' }}
         >
           IZGARA
+          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-golden-yellow group-hover:w-full transition-all duration-300" />
         </Link>
 
         {/* Desktop Navigation */}
@@ -55,16 +57,22 @@ export default function Header() {
             <li key={item.path}>
               <Link
                 to={item.path}
-                className="font-inter text-sm font-medium text-cream/90 hover:text-golden-yellow transition-colors duration-300 uppercase tracking-wider"
+                className={`font-inter text-sm font-medium transition-colors duration-300 uppercase tracking-wider relative group ${
+                  location.pathname === item.path
+                    ? 'text-golden-yellow'
+                    : 'text-cream/90 hover:text-golden-yellow'
+                }`}
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-golden-yellow group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* Language Toggle */}
+        {/* Right side controls */}
         <div className="flex items-center gap-4">
+          {/* Language Toggle */}
           <button
             onClick={() => setLanguage(language === 'FR' ? 'EN' : 'FR')}
             className="font-inter text-sm font-semibold text-cream/80 hover:text-golden-yellow transition-colors duration-300"
@@ -77,7 +85,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-cream p-2"
+            className="md:hidden text-cream p-2 hover:text-golden-yellow transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -108,7 +116,11 @@ export default function Header() {
                 <Link
                   to={item.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block font-inter text-lg font-medium text-cream/90 hover:text-golden-yellow transition-colors duration-300 uppercase tracking-wide"
+                  className={`block font-inter text-lg font-medium transition-colors duration-300 uppercase tracking-wide ${
+                    location.pathname === item.path
+                      ? 'text-golden-yellow'
+                      : 'text-cream/90 hover:text-golden-yellow'
+                  }`}
                 >
                   {item.name}
                 </Link>

@@ -312,3 +312,32 @@ img[src*=".png"] {
   visibility: visible !important;
   pointer-events: all !important;
 }
+
+/* Add at the end of your index.css */
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Ensure smooth transitions */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force scroll to top */
+html, body {
+  scroll-behavior: auto !important;
+  overflow-x: hidden;
+}
+
+body.splash-active {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+}

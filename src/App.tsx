@@ -12,12 +12,10 @@ function App() {
     setShowSplash(false);
     setTimeout(() => {
       setSplashComplete(true);
-      // Force scroll to top
       window.scrollTo({ top: 0, behavior: 'instant' });
     }, 100);
   };
 
-  // Force scroll to top on mount and lock body during splash
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
     
@@ -34,13 +32,10 @@ function App() {
 
   return (
     <Router>
-      {/* Splash Screen - ONLY ONE */}
       {showSplash && <Splash onComplete={handleSplashComplete} />}
       
-      {/* Header - Only show after splash completes */}
       {splashComplete && <Header />}
       
-      {/* Main Content - Hidden during splash */}
       <div style={{ 
         opacity: splashComplete ? 1 : 0, 
         visibility: splashComplete ? 'visible' : 'hidden',

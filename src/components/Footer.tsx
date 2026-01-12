@@ -1,179 +1,174 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { IoLogoInstagram, IoLogoFacebook, IoArrowForward } from 'react-icons/io5';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../contexts/LanguageContext';
+import { FaInstagram, FaFacebookF, FaPhone, FaEnvelope } from 'react-icons/fa';
 
-gsap.registerPlugin(ScrollTrigger);
+export default function Footer() {
+  const { language, toggleLanguage } = useLanguage();
 
-const Footer = () => {
-  const { language, toggleLanguage, t } = useLanguage();
-  const [email, setEmail] = useState('');
-  const footerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.footer-column', {
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: 'top 80%',
-        },
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: 'power2.out',
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Newsletter signup:', email);
-    setEmail('');
+  const content = {
+    fr: {
+      about: 'À Propos',
+      aboutText: 'Cuisine turque authentique depuis trois générations',
+      quickLinks: 'Liens Rapides',
+      contact: 'Contact',
+      address: '34 Rue Mouffetard, 75005 Paris',
+      phone: '+33 1 43 31 08 11',
+      email: 'contact@izgara-paris.com',
+      hours: 'Horaires',
+      hoursText: 'Ouvert 7j/7 : 11h00 - 01h00',
+      followUs: 'Suivez-Nous',
+      rights: 'Tous droits réservés',
+      links: {
+        home: 'Accueil',
+        menu: 'Menu',
+        story: 'Notre Histoire',
+        gallery: 'Galerie',
+        contact: 'Contact',
+      },
+    },
+    en: {
+      about: 'About',
+      aboutText: 'Authentic Turkish cuisine for three generations',
+      quickLinks: 'Quick Links',
+      contact: 'Contact',
+      address: '34 Rue Mouffetard, 75005 Paris',
+      phone: '+33 1 43 31 08 11',
+      email: 'contact@izgara-paris.com',
+      hours: 'Hours',
+      hoursText: 'Open 7 days: 11:00 AM - 1:00 AM',
+      followUs: 'Follow Us',
+      rights: 'All rights reserved',
+      links: {
+        home: 'Home',
+        menu: 'Menu',
+        story: 'Our Story',
+        gallery: 'Gallery',
+        contact: 'Contact',
+      },
+    },
   };
 
-  const navLinks = [
-    { path: '/', label: t('nav.home') },
-    { path: '/menu', label: t('nav.menu') },
-    { path: '/story', label: t('nav.story') },
-    { path: '/gallery', label: t('nav.gallery') },
-    { path: '/contact', label: t('nav.contact') },
-  ];
+  const currentLanguage = language as 'fr' | 'en';
+  const t = content[currentLanguage];
 
   return (
-    <footer ref={footerRef} className="bg-charcoal pt-20 pb-8 px-4 sm:px-8 lg:px-20">
-      <div className="max-w-[1440px] mx-auto">
-        {/* Top Section - 4 Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          {/* Column 1: Logo & Tagline */}
-          <div className="footer-column">
-            <Link to="/" className="text-3xl font-display font-bold text-cream mb-4 block">
+    <footer className="bg-charcoal text-white pt-20 pb-8">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+        {/* Top Section */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          {/* About */}
+          <div>
+            <h3 className="font-playfair text-3xl text-golden-yellow mb-4">
               IZGARA
-            </Link>
-            <p className="text-sm font-body text-cream/70 leading-relaxed">
-              {t('footer.tagline')}
+            </h3>
+            <p className="font-inter text-white/70 mb-6">
+              {t.aboutText}
             </p>
+            <button
+              onClick={toggleLanguage}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full font-inter text-sm transition-colors duration-300"
+            >
+              {language === 'fr' ? '🇬🇧 English' : '🇫🇷 Français'}
+            </button>
           </div>
 
-          {/* Column 2: Navigation */}
-          <div className="footer-column">
-            <h4 className="text-sm font-body font-semibold text-secondary uppercase tracking-wider mb-4">
-              {t('footer.nav')}
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-playfair text-xl text-golden-yellow mb-4">
+              {t.quickLinks}
             </h4>
-            <nav className="flex flex-col gap-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className="text-base font-body text-cream/80 hover:text-secondary hover:underline transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+            <ul className="space-y-3">
+              <li>
+                <a href="/" className="font-inter text-white/70 hover:text-golden-yellow transition-colors">
+                  {t.links.home}
+                </a>
+              </li>
+              <li>
+                <a href="/menu" className="font-inter text-white/70 hover:text-golden-yellow transition-colors">
+                  {t.links.menu}
+                </a>
+              </li>
+              <li>
+                <a href="/story" className="font-inter text-white/70 hover:text-golden-yellow transition-colors">
+                  {t.links.story}
+                </a>
+              </li>
+              <li>
+                <a href="/gallery" className="font-inter text-white/70 hover:text-golden-yellow transition-colors">
+                  {t.links.gallery}
+                </a>
+              </li>
+              <li>
+                <a href="/contact" className="font-inter text-white/70 hover:text-golden-yellow transition-colors">
+                  {t.links.contact}
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* Column 3: Contact */}
-          <div className="footer-column">
-            <h4 className="text-sm font-body font-semibold text-secondary uppercase tracking-wider mb-4">
-              {t('footer.contact')}
+          {/* Contact */}
+          <div>
+            <h4 className="font-playfair text-xl text-golden-yellow mb-4">
+              {t.contact}
             </h4>
-            <div className="flex flex-col gap-3 text-base font-body text-cream/80">
-              <div>34 Rue Mouffetard</div>
-              <div>75005 Paris, France</div>
-              <a href="tel:+33143310811" className="hover:text-secondary transition-colors">
-                +33 1 43 31 08 11
-              </a>
-              <a href="mailto:contact@izgara-paris.com" className="hover:text-secondary transition-colors">
-                contact@izgara-paris.com
-              </a>
-              <div>11:00 - 01:00 (7j/7)</div>
-            </div>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <span className="text-golden-yellow mt-1">📍</span>
+                <span className="font-inter text-white/70">{t.address}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FaPhone className="text-golden-yellow" />
+                <a href={`tel:${t.phone.replace(/\s/g, '')}`} className="font-inter text-white/70 hover:text-golden-yellow transition-colors">
+                  {t.phone}
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <FaEnvelope className="text-golden-yellow" />
+                <a href={`mailto:${t.email}`} className="font-inter text-white/70 hover:text-golden-yellow transition-colors">
+                  {t.email}
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* Column 4: Social & Newsletter */}
-          <div className="footer-column">
-            <h4 className="text-sm font-body font-semibold text-secondary uppercase tracking-wider mb-4">
-              {t('footer.social')}
+          {/* Hours & Social */}
+          <div>
+            <h4 className="font-playfair text-xl text-golden-yellow mb-4">
+              {t.hours}
             </h4>
-
-            {/* Social Icons */}
-            <div className="flex gap-4 mb-8">
+            <p className="font-inter text-white/70 mb-6">
+              {t.hoursText}
+            </p>
+            <h4 className="font-playfair text-xl text-golden-yellow mb-4">
+              {t.followUs}
+            </h4>
+            <div className="flex gap-4">
               <a
                 href="https://www.instagram.com/izgara_restaurant/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-3xl text-cream/80 hover:text-secondary hover:rotate-[360deg] transition-all duration-500"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-flame-red hover:to-golden-yellow flex items-center justify-center transition-all duration-300"
               >
-                <IoLogoInstagram />
+                <FaInstagram className="text-xl" />
               </a>
               <a
-                href="https://www.facebook.com"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-3xl text-cream/80 hover:text-secondary hover:rotate-[360deg] transition-all duration-500"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-flame-red hover:to-golden-yellow flex items-center justify-center transition-all duration-300"
               >
-                <IoLogoFacebook />
+                <FaFacebookF className="text-xl" />
               </a>
             </div>
-
-            {/* Newsletter */}
-            <h4 className="text-sm font-body font-semibold text-cream/90 uppercase tracking-wider mb-2">
-              {t('footer.newsletter')}
-            </h4>
-            <form onSubmit={handleNewsletterSubmit} className="flex">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t('footer.newsletter.placeholder')}
-                className="flex-1 h-12 px-4 bg-cream/5 border border-cream/20 rounded-l-lg text-sm font-body text-cream/90 placeholder-cream/50 focus:outline-none focus:border-secondary"
-                required
-              />
-              <button
-                type="submit"
-                className="w-15 h-12 bg-primary hover:bg-primary/80 rounded-r-lg flex items-center justify-center transition-colors"
-              >
-                <IoArrowForward className="text-xl text-white" />
-              </button>
-            </form>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="w-full h-px bg-cream/10 mb-8" />
-
         {/* Bottom Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-body text-cream/50">
-          <div>{t('footer.copyright')}</div>
-
-          <div className="flex items-center gap-6">
-            {/* Language Toggle */}
-            <button onClick={toggleLanguage} className="font-semibold">
-              <span className={language === 'fr' ? 'text-secondary' : ''}>FR</span>
-              <span className="mx-2">|</span>
-              <span className={language === 'en' ? 'text-secondary' : ''}>EN</span>
-            </button>
-
-            {/* Legal Links */}
-            <div className="flex items-center gap-4">
-              <Link to="/legal" className="hover:text-cream/80 transition-colors">
-                {t('footer.legal')}
-              </Link>
-              <span>|</span>
-              <Link to="/privacy" className="hover:text-cream/80 transition-colors">
-                {t('footer.privacy')}
-              </Link>
-            </div>
-          </div>
+        <div className="border-t border-white/10 pt-8 text-center">
+          <p className="font-inter text-white/50 text-sm">
+            © {new Date().getFullYear()} Izgara Paris. {t.rights}.
+          </p>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

@@ -3,8 +3,51 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { LazyImage } from './LazyImage';
 
 export const Welcome = () => {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  const content: {
+    fr: {
+      overline: string;
+      title: string;
+      subtitle: string;
+      paragraph1: string;
+      paragraph2: string;
+      paragraph3: string;
+      cta: string;
+    };
+    en: {
+      overline: string;
+      title: string;
+      subtitle: string;
+      paragraph1: string;
+      paragraph2: string;
+      paragraph3: string;
+      cta: string;
+    };
+  } = {
+    fr: {
+      overline: 'Bienvenue',
+      title: 'Bienvenue Chez Izgara',
+      subtitle: 'L\'Authenticité Turque au Cœur de Paris',
+      paragraph1: 'Depuis trois générations, notre famille perpétue la tradition culinaire turque authentique dans le quartier latin de Paris.',
+      paragraph2: 'Notre grill horizontal unique permet une cuisson lente et homogène, garantissant une viande tendre et savoureuse à chaque fois.',
+      paragraph3: 'Chaque plat est préparé avec des ingrédients frais et des recettes transmises de père en fils depuis 1990.',
+      cta: 'Découvrez Notre Histoire',
+    },
+    en: {
+      overline: 'Welcome',
+      title: 'Welcome to Izgara',
+      subtitle: 'Turkish Authenticity in the Heart of Paris',
+      paragraph1: 'For three generations, our family has been perpetuating authentic Turkish culinary tradition in the Latin Quarter of Paris.',
+      paragraph2: 'Our unique horizontal grill allows for slow and even cooking, guaranteeing tender and flavorful meat every time.',
+      paragraph3: 'Every dish is prepared with fresh ingredients and recipes passed down from father to son since 1990.',
+      cta: 'Discover Our Story',
+    },
+  };
+
+  const currentLanguage = language as 'fr' | 'en';
+  const t = content[currentLanguage];
 
   return (
     <section 
@@ -17,28 +60,28 @@ export const Welcome = () => {
           {/* Left: Text Content */}
           <div className="space-y-6">
             <p className="text-golden-yellow font-inter text-sm uppercase tracking-widest">
-              {t('welcome.overline')}
+              {t.overline}
             </p>
             
             <h2 className="font-playfair text-5xl md:text-6xl text-charcoal leading-tight">
-              {t('welcome.title')}
+              {t.title}
             </h2>
             
             <h3 className="font-inter text-2xl text-flame-red font-semibold">
-              {t('welcome.subtitle')}
+              {t.subtitle}
             </h3>
             
             <div className="space-y-4 text-charcoal/80 font-inter text-lg leading-relaxed">
-              <p>{t('welcome.paragraph1')}</p>
-              <p>{t('welcome.paragraph2')}</p>
-              <p>{t('welcome.paragraph3')}</p>
+              <p>{t.paragraph1}</p>
+              <p>{t.paragraph2}</p>
+              <p>{t.paragraph3}</p>
             </div>
             
             <a
               href="#story"
               className="inline-flex items-center gap-2 font-inter font-semibold text-flame-red hover:text-golden-yellow transition-colors duration-300 group"
             >
-              {t('welcome.cta')}
+              {t.cta}
               <span className="transform group-hover:translate-x-2 transition-transform duration-300">
                 →
               </span>

@@ -19,6 +19,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Custom scrollbar */
@@ -41,7 +44,8 @@ body {
 
 /* Lazy Load Image Optimization */
 .lazy-load-image-background {
-  background-color: #F5F5DC !important;
+  background-color: transparent !important;
+  background-image: none !important;
 }
 
 .lazy-load-image-loaded {
@@ -61,4 +65,199 @@ body {
 img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+  will-change: transform;
+}
+
+/* Remove PNG checkerboard background */
+img[src*=".png"] {
+  background: transparent;
+}
+
+/* 3D Perspective for Kebab Rotation */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Radial gradient for glow effect */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* 3D Title Effects */
+.letter-hover {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-block;
+  transform-style: preserve-3d;
+}
+
+.letter-hover:hover {
+  text-shadow: 
+    0 0 20px rgba(255,167,38,0.8),
+    0 0 40px rgba(255,167,38,0.4),
+    0 10px 30px rgba(211,47,47,0.6),
+    0 0 60px rgba(255,255,255,0.2);
+  filter: brightness(1.3);
+}
+
+/* Preserve 3D for title */
+h1[style*="preserve-3d"] {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Hero title visibility boost */
+.hero-title {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  filter: drop-shadow(0 0 30px rgba(0,0,0,0.8)) drop-shadow(0 0 10px rgba(211,47,47,0.9));
+}
+
+/* Video background optimization */
+video {
+  object-fit: cover;
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* Smooth animations */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Loading placeholder for images */
+.image-placeholder {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Disable checkerboard pattern for transparent images */
+.no-checkerboard {
+  background: none !important;
+  background-color: transparent !important;
+}
+
+/* Improve text contrast on video background */
+.text-shadow-strong {
+  text-shadow: 
+    0 2px 4px rgba(0,0,0,0.9),
+    0 4px 8px rgba(0,0,0,0.7),
+    0 8px 16px rgba(0,0,0,0.5),
+    0 0 30px rgba(211,47,47,0.4);
+}
+
+/* Kebab showcase image container */
+.kebab-container {
+  background-color: #212121;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(135deg, #D32F2F 0%, #FFA726 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(211,47,47,0.3);
+}
+
+/* Button glow effect */
+.btn-glow {
+  box-shadow: 0 0 20px rgba(211,47,47,0.5);
+  transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 40px rgba(255,167,38,0.7);
+  transform: scale(1.05);
+}
+
+/* Spinner/loader */
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #D32F2F;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hide element utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Print styles */
+@media print {
+  video,
+  .no-print {
+    display: none;
+  }
+}
+
+/* Accessibility - Focus states */
+*:focus {
+  outline: 2px solid #FFA726;
+  outline-offset: 2px;
+}
+
+button:focus,
+a:focus {
+  outline: 2px solid #FFA726;
+  outline-offset: 4px;
+}
+
+/* Dark mode text readability */
+@media (prefers-color-scheme: dark) {
+  body {
+    color-scheme: dark;
+  }
 }

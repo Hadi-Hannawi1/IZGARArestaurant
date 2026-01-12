@@ -1,126 +1,126 @@
-import { useEffect, useRef } from 'react';
-import { IoLocationSharp, IoTimeOutline, IoCall, IoMail } from 'react-icons/io5';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { FaMapMarkerAlt, FaPhone, FaClock } from 'react-icons/fa';
 
-gsap.registerPlugin(ScrollTrigger);
+export default function Location() {
+  const { language } = useLanguage();
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-const Location = () => {
-  const { t } = useLanguage();
-  const mapRef = useRef<HTMLDivElement>(null);
-  const infoRef = useRef<HTMLDivElement>(null);
+  const content = {
+    fr: {
+      title: 'Où Nous Trouver',
+      subtitle: 'Au cœur du Quartier Latin',
+      address: '34 Rue Mouffetard',
+      city: '75005 Paris, France',
+      phone: '+33 1 43 31 08 11',
+      hours: 'Ouvert 7j/7 : 11h00 - 01h00',
+      directions: 'Obtenir l\'itinéraire',
+    },
+    en: {
+      title: 'Find Us',
+      subtitle: 'In the heart of the Latin Quarter',
+      address: '34 Rue Mouffetard',
+      city: '75005 Paris, France',
+      phone: '+33 1 43 31 08 11',
+      hours: 'Open 7 days: 11:00 AM - 1:00 AM',
+      directions: 'Get Directions',
+    },
+  };
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(mapRef.current, {
-        scrollTrigger: {
-          trigger: mapRef.current,
-          start: 'top 70%',
-        },
-        scale: 0.9,
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.out',
-      });
-
-      gsap.from(infoRef.current, {
-        scrollTrigger: {
-          trigger: infoRef.current,
-          start: 'top 70%',
-        },
-        x: 50,
-        opacity: 0,
-        duration: 1,
-        delay: 0.3,
-        ease: 'power2.out',
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const currentLanguage = language as 'fr' | 'en';
+  const t = content[currentLanguage];
 
   return (
-    <section className="location-section bg-charcoal py-32 px-4 sm:px-8 lg:px-20">
-      <div className="max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section 
+      id="location" 
+      ref={sectionRef}
+      className="py-20 px-6 md:px-12 lg:px-24 bg-charcoal text-white"
+    >
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="font-playfair text-5xl md:text-6xl mb-6">
+            {t.title}
+          </h2>
+          <p className="font-inter text-xl text-white/80 max-w-2xl mx-auto">
+            {t.subtitle}
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Map */}
-          <div ref={mapRef} className="location-map">
+          <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.8267847856903!2d2.348897676740806!3d48.842331871329996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671e8d0f0f58b%3A0x7f0b9e0b0b0b0b0b!2s34%20Rue%20Mouffetard%2C%2075005%20Paris%2C%20France!5e0!3m2!1sen!2sus!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.8241486187647!2d2.3494967!3d48.8426157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671e7c2e7f7af%3A0x3e1f2e1234567890!2s34%20Rue%20Mouffetard%2C%2075005%20Paris%2C%20France!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
               width="100%"
-              height="600"
-              style={{ border: 0, borderRadius: '1rem' }}
-              loading="lazy"
+              height="100%"
+              style={{ border: 0 }}
               allowFullScreen
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              title="Izgara Location"
             />
           </div>
 
-          {/* Info */}
-          <div ref={infoRef} className="location-info bg-cream/5 backdrop-blur-md border border-cream/10 rounded-2xl p-12">
-            <h2 className="text-4xl font-display font-bold text-cream mb-8">
-              {t('location.headline')}
-            </h2>
-
-            <div className="space-y-8">
-              {/* Address */}
-              <div className="flex gap-4 items-start">
-                <IoLocationSharp className="text-2xl text-secondary flex-shrink-0 mt-1" />
-                <div>
-                  <div className="text-lg font-body text-cream/90 leading-relaxed">
-                    34 Rue Mouffetard<br />
-                    75005 Paris, France
-                  </div>
-                </div>
+          {/* Info Card */}
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 space-y-6">
+            {/* Address */}
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
+                <FaMapMarkerAlt className="text-xl text-white" />
               </div>
-
-              {/* Hours */}
-              <div className="flex gap-4 items-start">
-                <IoTimeOutline className="text-2xl text-secondary flex-shrink-0 mt-1" />
-                <div>
-                  <div className="text-lg font-body text-cream/90">{t('location.hours')}</div>
-                  <div className="text-lg font-body text-cream/90">{t('location.time')}</div>
-                </div>
+              <div>
+                <h3 className="font-playfair text-xl text-golden-yellow mb-2">
+                  {currentLanguage === 'fr' ? 'Adresse' : 'Address'}
+                </h3>
+                <p className="font-inter text-white/90">{t.address}</p>
+                <p className="font-inter text-white/90">{t.city}</p>
               </div>
+            </div>
 
-              {/* Phone */}
-              <div className="flex gap-4 items-start">
-                <IoCall className="text-2xl text-secondary flex-shrink-0 mt-1" />
+            {/* Phone */}
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
+                <FaPhone className="text-xl text-white" />
+              </div>
+              <div>
+                <h3 className="font-playfair text-xl text-golden-yellow mb-2">
+                  {currentLanguage === 'fr' ? 'Téléphone' : 'Phone'}
+                </h3>
                 <a
-                  href="tel:+33143310811"
-                  className="text-lg font-body text-cream/90 hover:text-secondary transition-colors"
+                  href={`tel:${t.phone.replace(/\s/g, '')}`}
+                  className="font-inter text-white/90 hover:text-golden-yellow transition-colors"
                 >
-                  +33 1 43 31 08 11
-                </a>
-              </div>
-
-              {/* Email */}
-              <div className="flex gap-4 items-start">
-                <IoMail className="text-2xl text-secondary flex-shrink-0 mt-1" />
-                <a
-                  href="mailto:contact@izgara-paris.com"
-                  className="text-lg font-body text-cream/90 hover:text-secondary transition-colors"
-                >
-                  contact@izgara-paris.com
+                  {t.phone}
                 </a>
               </div>
             </div>
 
-            {/* CTA Button */}
+            {/* Hours */}
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
+                <FaClock className="text-xl text-white" />
+              </div>
+              <div>
+                <h3 className="font-playfair text-xl text-golden-yellow mb-2">
+                  {currentLanguage === 'fr' ? 'Horaires' : 'Hours'}
+                </h3>
+                <p className="font-inter text-white/90">{t.hours}</p>
+              </div>
+            </div>
+
+            {/* Directions Button */}
             <a
               href="https://www.google.com/maps/dir/?api=1&destination=34+Rue+Mouffetard,75005+Paris,France"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full mt-12 px-8 py-4 fire-gradient text-white text-base font-semibold uppercase tracking-wide rounded-lg shadow-glow hover:scale-102 transition-transform text-center"
+              className="block w-full bg-gradient-to-r from-flame-red to-golden-yellow hover:from-golden-yellow hover:to-flame-red text-white font-inter font-bold text-center py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl"
             >
-              {t('location.cta')}
+              {t.directions}
             </a>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Location;
+}

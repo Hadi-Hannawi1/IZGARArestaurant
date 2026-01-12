@@ -3,8 +3,48 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { LazyImage } from './LazyImage';
 
 export const FamilyStory = () => {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  const content = {
+    fr: {
+      title: 'Notre Histoire',
+      subtitle: 'Trois générations de passion culinaire',
+      timeline: {
+        1990: {
+          year: '1990',
+          title: 'Les Débuts',
+          description: 'Ouverture du premier restaurant par notre grand-père à Paris',
+        },
+        2024: {
+          year: '2024',
+          title: 'Aujourd\'hui',
+          description: 'La troisième génération perpétue la tradition familiale',
+        },
+      },
+      cta: 'Découvrir Notre Histoire Complète',
+    },
+    en: {
+      title: 'Our Story',
+      subtitle: 'Three generations of culinary passion',
+      timeline: {
+        1990: {
+          year: '1990',
+          title: 'The Beginning',
+          description: 'First restaurant opened by our grandfather in Paris',
+        },
+        2024: {
+          year: '2024',
+          title: 'Today',
+          description: 'Third generation continues the family tradition',
+        },
+      },
+      cta: 'Discover Our Complete Story',
+    },
+  };
+
+  const currentLanguage = language as 'fr' | 'en';
+  const t = content[currentLanguage];
 
   return (
     <section 
@@ -16,10 +56,10 @@ export const FamilyStory = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="font-playfair text-5xl md:text-6xl text-charcoal mb-6">
-            {t('story.title')}
+            {t.title}
           </h2>
           <p className="font-inter text-xl text-charcoal/70 max-w-2xl mx-auto">
-            {t('story.subtitle')}
+            {t.subtitle}
           </p>
         </div>
 
@@ -33,13 +73,13 @@ export const FamilyStory = () => {
             <div className="md:text-right">
               <div className="bg-white p-8 rounded-2xl shadow-lg inline-block">
                 <span className="font-playfair text-4xl text-flame-red font-bold">
-                  {t('story.timeline.1990.year')}
+                  {t.timeline[1990].year}
                 </span>
                 <h3 className="font-playfair text-2xl text-charcoal mt-2 mb-4">
-                  {t('story.timeline.1990.title')}
+                  {t.timeline[1990].title}
                 </h3>
                 <p className="font-inter text-charcoal/70">
-                  {t('story.timeline.1990.description')}
+                  {t.timeline[1990].description}
                 </p>
               </div>
             </div>
@@ -64,13 +104,13 @@ export const FamilyStory = () => {
             <div className="md:order-2">
               <div className="bg-white p-8 rounded-2xl shadow-lg inline-block">
                 <span className="font-playfair text-4xl text-flame-red font-bold">
-                  {t('story.timeline.2024.year')}
+                  {t.timeline[2024].year}
                 </span>
                 <h3 className="font-playfair text-2xl text-charcoal mt-2 mb-4">
-                  {t('story.timeline.2024.title')}
+                  {t.timeline[2024].title}
                 </h3>
                 <p className="font-inter text-charcoal/70">
-                  {t('story.timeline.2024.description')}
+                  {t.timeline[2024].description}
                 </p>
               </div>
             </div>
@@ -83,7 +123,7 @@ export const FamilyStory = () => {
             href="#story"
             className="inline-flex items-center gap-2 bg-charcoal hover:bg-flame-red text-white px-10 py-4 rounded-full font-inter font-bold text-lg transition-all duration-300 shadow-lg"
           >
-            {t('story.cta')}
+            {t.cta}
             <span>→</span>
           </a>
         </div>

@@ -66,8 +66,28 @@ const dishes = [
 ];
 
 export const SignatureDishes = () => {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  const content = {
+    fr: {
+      title: 'Nos Spécialités',
+      subtitle: 'Des recettes authentiques transmises de génération en génération',
+      signature: 'SIGNATURE',
+      order: 'Commander',
+      viewMenu: 'Voir Le Menu Complet',
+    },
+    en: {
+      title: 'Our Specialties',
+      subtitle: 'Authentic recipes passed down through generations',
+      signature: 'SIGNATURE',
+      order: 'Order',
+      viewMenu: 'View Full Menu',
+    },
+  };
+
+  const currentLanguage = language as 'fr' | 'en';
+  const t = content[currentLanguage];
 
   return (
     <section 
@@ -79,10 +99,10 @@ export const SignatureDishes = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="font-playfair text-5xl md:text-6xl text-charcoal mb-6">
-            {t('dishes.title')}
+            {t.title}
           </h2>
           <p className="font-inter text-xl text-charcoal/70 max-w-2xl mx-auto">
-            {t('dishes.subtitle')}
+            {t.subtitle}
           </p>
         </div>
 
@@ -104,7 +124,7 @@ export const SignatureDishes = () => {
                 {/* Signature Badge */}
                 {dish.signature && (
                   <div className="absolute top-4 right-4 bg-flame-red text-white px-4 py-2 rounded-full text-sm font-inter font-bold shadow-lg">
-                    {t('dishes.signature')}
+                    {t.signature}
                   </div>
                 )}
               </div>
@@ -122,7 +142,7 @@ export const SignatureDishes = () => {
                     {dish.price}
                   </span>
                   <button className="bg-golden-yellow hover:bg-flame-red text-white px-6 py-2 rounded-full font-inter font-semibold transition-colors duration-300">
-                    {t('dishes.order')}
+                    {t.order}
                   </button>
                 </div>
               </div>
@@ -136,7 +156,7 @@ export const SignatureDishes = () => {
             href="/menu"
             className="inline-flex items-center gap-2 bg-charcoal hover:bg-flame-red text-white px-10 py-4 rounded-full font-inter font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-2xl"
           >
-            {t('dishes.viewMenu')}
+            {t.viewMenu}
             <span>→</span>
           </a>
         </div>

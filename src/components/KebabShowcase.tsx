@@ -1,35 +1,10 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GiFlame, GiCook, GiAlarmClock } from 'react-icons/gi';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export const KebabShowcase = () => {
   const { language } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const grillRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Realistic horizontal rotation (like a real kebab grill)
-      if (grillRef.current) {
-        gsap.to(grillRef.current, {
-          rotationY: 180,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 2,
-          },
-        });
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   const benefits = [
     {
@@ -77,8 +52,8 @@ export const KebabShowcase = () => {
             : 'Authentic Turkish tradition with our unique horizontal grill'}
         </p>
 
-        {/* Rotating Grill with SOLID Background */}
-        <div className="relative mb-16 perspective-1000">
+        {/* Static Grill Image - NO ANIMATION */}
+        <div className="relative mb-16">
           {/* Outer container with solid background */}
           <div 
             className="w-full max-w-4xl mx-auto relative z-10 rounded-2xl overflow-hidden"
@@ -88,32 +63,24 @@ export const KebabShowcase = () => {
               boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
             }}
           >
-            {/* Inner 3D transform container */}
-            <div 
-              ref={grillRef}
-              style={{ 
-                transformStyle: 'preserve-3d',
+            {/* Static Image - No rotation */}
+            <img
+              src="/images/kebab-showcase/horizontal-grill.png"
+              alt="Horizontal Turkish Kebab Grill"
+              className="w-full h-auto drop-shadow-2xl rounded-xl"
+              style={{
                 backgroundColor: '#212121',
+                display: 'block',
+                maxWidth: '100%',
               }}
-            >
-              <img
-                src="/images/kebab-showcase/horizontal-grill.png"
-                alt="Horizontal Turkish Kebab Grill"
-                className="w-full h-auto drop-shadow-2xl"
-                style={{
-                  backgroundColor: '#212121',
-                  display: 'block',
-                  maxWidth: '100%',
-                }}
-              />
-            </div>
+            />
           </div>
 
           {/* Glow Effect */}
           <div className="absolute inset-0 bg-gradient-radial from-flame-red/20 via-transparent to-transparent blur-3xl -z-10" />
         </div>
 
-        {/* Benefits Grid - EXPLICIT VISIBILITY */}
+        {/* Benefits Grid */}
         <div 
           className="grid md:grid-cols-3 gap-8 mt-16"
           style={{

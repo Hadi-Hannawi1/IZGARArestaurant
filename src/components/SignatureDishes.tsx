@@ -1,104 +1,95 @@
-import { useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { LazyImage } from './LazyImage';
-
-const dishes = [
-  {
-    id: 1,
-    name: 'Kebab Chef',
-    nameEn: 'Chef Kebab',
-    description: 'Notre signature : feta, carottes râpées, grenades',
-    descriptionEn: 'Our signature: feta, grated carrots, pomegranates',
-    price: '€12.90',
-    image: '/images/dishes/kebab-chef.jpeg',
-    signature: true,
-  },
-  {
-    id: 2,
-    name: 'Kebab Classique',
-    nameEn: 'Classic Kebab',
-    description: 'Le classique revisité avec nos ingrédients maison',
-    descriptionEn: 'The classic revisited with our homemade ingredients',
-    price: '€9.90',
-    image: '/images/dishes/kebab-classic.jpeg',
-    signature: false,
-  },
-  {
-    id: 3,
-    name: 'Adana Kebab',
-    nameEn: 'Adana Kebab',
-    description: 'Brochettes épicées grillées sur notre grill horizontal',
-    descriptionEn: 'Spicy skewers grilled on our horizontal grill',
-    price: '€13.90',
-    image: '/images/dishes/adana-kebab.jpeg',
-    signature: true,
-  },
-  {
-    id: 4,
-    name: 'Lahmacun',
-    nameEn: 'Lahmacun',
-    description: 'Pizza turque fine et croustillante',
-    descriptionEn: 'Thin and crispy Turkish pizza',
-    price: '€8.90',
-    image: '/images/dishes/lahmacun.jpeg',
-    signature: false,
-  },
-  {
-    id: 5,
-    name: 'Durum Poulet',
-    nameEn: 'Chicken Durum',
-    description: 'Wrap généreux avec poulet mariné maison',
-    descriptionEn: 'Generous wrap with homemade marinated chicken',
-    price: '€10.90',
-    image: '/images/dishes/chicken-durum.jpeg',
-    signature: false,
-  },
-  {
-    id: 6,
-    name: 'Baklava',
-    nameEn: 'Baklava',
-    description: 'Dessert traditionnel turc au miel et pistaches',
-    descriptionEn: 'Traditional Turkish dessert with honey and pistachios',
-    price: '€5.90',
-    image: '/images/dishes/Bakalava.jpeg',
-    signature: false,
-  },
-];
 
 export const SignatureDishes = () => {
   const { language } = useLanguage();
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   const content = {
     fr: {
       title: 'Nos Spécialités',
-      subtitle: 'Des recettes authentiques transmises de génération en génération',
+      subtitle: 'Découvrez nos plats signatures préparés avec passion',
       signature: 'SIGNATURE',
-      order: 'Commander',
-      viewMenu: 'Voir Le Menu Complet',
+      viewMenu: 'Voir Notre Menu Complet',
     },
     en: {
       title: 'Our Specialties',
-      subtitle: 'Authentic recipes passed down through generations',
+      subtitle: 'Discover our signature dishes prepared with passion',
       signature: 'SIGNATURE',
-      order: 'Order',
-      viewMenu: 'View Full Menu',
+      viewMenu: 'View Our Full Menu',
     },
   };
 
   const currentLanguage = language as 'fr' | 'en';
   const t = content[currentLanguage];
 
+  const dishes = [
+    {
+      id: 1,
+      name: 'Kebab Chef',
+      nameEn: 'Chef Kebab',
+      description: 'Notre création signature avec viande marinée 24h, légumes frais et sauce maison',
+      descriptionEn: 'Our signature creation with 24h marinated meat, fresh vegetables and homemade sauce',
+      price: '€12.90',
+      image: '/images/dishes/kebab-chef.jpeg',
+      signature: true,
+    },
+    {
+      id: 2,
+      name: 'Kebab Classique',
+      nameEn: 'Classic Kebab',
+      description: 'Le traditionnel kebab turc avec notre recette familiale authentique',
+      descriptionEn: 'Traditional Turkish kebab with our authentic family recipe',
+      price: '€9.90',
+      image: '/images/dishes/kebab-classic.jpeg',
+      signature: false,
+    },
+    {
+      id: 3,
+      name: 'Adana Kebab',
+      nameEn: 'Adana Kebab',
+      description: 'Brochettes épicées grillées au feu de bois, spécialité d\'Adana',
+      descriptionEn: 'Spicy skewers grilled over wood fire, Adana specialty',
+      price: '€13.90',
+      image: '/images/dishes/adana-kebab.jpeg',
+      signature: true,
+    },
+    {
+      id: 4,
+      name: 'Lahmacun',
+      nameEn: 'Lahmacun',
+      description: 'Pizza turque fine garnie de viande hachée et légumes',
+      descriptionEn: 'Thin Turkish pizza topped with minced meat and vegetables',
+      price: '€8.90',
+      image: '/images/dishes/lahmacun.jpeg',
+      signature: false,
+    },
+    {
+      id: 5,
+      name: 'Durum Poulet',
+      nameEn: 'Chicken Durum',
+      description: 'Wrap généreusement garni de poulet grillé et crudités',
+      descriptionEn: 'Wrap generously filled with grilled chicken and fresh vegetables',
+      price: '€10.90',
+      image: '/images/dishes/chicken-durum.jpeg',
+      signature: false,
+    },
+    {
+      id: 6,
+      name: 'Baklava',
+      nameEn: 'Baklava',
+      description: 'Pâtisserie feuilletée au miel et aux pistaches, recette traditionnelle',
+      descriptionEn: 'Flaky pastry with honey and pistachios, traditional recipe',
+      price: '€5.90',
+      image: '/images/dishes/Bakalava.jpeg',
+      signature: false,
+    },
+  ];
+
   return (
-    <section 
-      id="dishes" 
-      ref={sectionRef}
-      className="py-20 px-6 md:px-12 lg:px-24 bg-cream"
-    >
+    <section className="py-20 px-6 md:px-12 lg:px-24 bg-warm-beige">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-playfair text-5xl md:text-6xl text-charcoal mb-6">
+          <h2 className="font-playfair text-5xl md:text-6xl text-charcoal mb-4">
             {t.title}
           </h2>
           <p className="font-inter text-xl text-charcoal/70 max-w-2xl mx-auto">
@@ -113,51 +104,50 @@ export const SignatureDishes = () => {
               key={dish.id}
               className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
             >
+              {/* Signature Badge */}
+              {dish.signature && (
+                <div className="absolute top-4 right-4 z-10">
+                  <span className="bg-gradient-to-r from-flame-red to-golden-yellow text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                    {t.signature}
+                  </span>
+                </div>
+              )}
+
               {/* Image */}
               <div className="relative h-64 overflow-hidden">
-                <LazyImage
+                <img
                   src={dish.image}
-                  alt={language === 'fr' ? dish.name : dish.nameEn}
+                  alt={currentLanguage === 'fr' ? dish.name : dish.nameEn}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                
-                {/* Signature Badge */}
-                {dish.signature && (
-                  <div className="absolute top-4 right-4 bg-flame-red text-white px-4 py-2 rounded-full text-sm font-inter font-bold shadow-lg">
-                    {t.signature}
-                  </div>
-                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               </div>
 
               {/* Content */}
               <div className="p-6">
                 <h3 className="font-playfair text-2xl text-charcoal mb-2">
-                  {language === 'fr' ? dish.name : dish.nameEn}
+                  {currentLanguage === 'fr' ? dish.name : dish.nameEn}
                 </h3>
-                <p className="font-inter text-charcoal/70 mb-4">
-                  {language === 'fr' ? dish.description : dish.descriptionEn}
+                <p className="font-inter text-charcoal/70 mb-4 line-clamp-2">
+                  {currentLanguage === 'fr' ? dish.description : dish.descriptionEn}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="font-playfair text-3xl text-flame-red font-bold">
+                  <span className="font-playfair text-2xl font-bold text-flame-red">
                     {dish.price}
                   </span>
-                  <button className="bg-golden-yellow hover:bg-flame-red text-white px-6 py-2 rounded-full font-inter font-semibold transition-colors duration-300">
-                    {t.order}
-                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* View Menu CTA */}
+        {/* View Full Menu Button */}
         <div className="text-center mt-16">
           <a
             href="/menu"
-            className="inline-flex items-center gap-2 bg-charcoal hover:bg-flame-red text-white px-10 py-4 rounded-full font-inter font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-2xl"
+            className="inline-block bg-gradient-to-r from-flame-red to-golden-yellow text-white font-inter font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
           >
             {t.viewMenu}
-            <span>→</span>
           </a>
         </div>
       </div>

@@ -35,16 +35,12 @@ function App() {
       
       {splashComplete && <Header />}
       
-      <div style={{ 
-        opacity: splashComplete ? 1 : 0, 
-        visibility: splashComplete ? 'visible' : 'hidden',
-        transition: 'opacity 0.8s ease-in',
-        pointerEvents: splashComplete ? 'auto' : 'none'
-      }}>
+      {/* REMOVED opacity effect - Direct rendering */}
+      {splashComplete && (
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
-      </div>
+      )}
     </Router>
   );
 }

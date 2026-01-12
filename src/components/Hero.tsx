@@ -17,7 +17,7 @@ export default function Hero() {
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-charcoal">
-      {/* Full-Screen Video */}
+      {/* Full-Screen Video - SUPER BRIGHT & CLEAR */}
       <video
         ref={videoRef}
         autoPlay
@@ -25,12 +25,14 @@ export default function Hero() {
         muted
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
+        style={{
+          filter: 'brightness(1.2) contrast(1.1) saturate(1.05)',
+        }}
       >
         <source src="/videos/hero-kebab.mp4" type="video/mp4" />
       </video>
 
-      {/* Subtle vignette overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-charcoal/20 pointer-events-none" />
+      {/* NO DARK OVERLAY - Video is fully visible and bright */}
     </section>
   );
 }

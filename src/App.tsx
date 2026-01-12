@@ -13,6 +13,7 @@ function App() {
     setTimeout(() => {
       setSplashComplete(true);
       window.scrollTo({ top: 0, behavior: 'instant' });
+      document.body.classList.remove('splash-active');
     }, 100);
   };
 
@@ -20,13 +21,11 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
     
     if (showSplash) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+      document.body.classList.add('splash-active');
     }
 
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.classList.remove('splash-active');
     };
   }, [showSplash]);
 

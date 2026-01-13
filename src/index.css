@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile viewport height fix */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Prevent zoom on input focus (mobile) */
+input,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+/* Smooth scrolling on mobile */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;600;700&family=Pacifico&display=swap');
 
 /* ========================================
@@ -385,4 +414,44 @@ a:focus {
 
 .animate-shimmer {
   animation: shimmer 2s infinite linear;
+}
+
+/* ========================================
+   HERO VIDEO MOBILE FIX
+   ======================================== */
+
+/* Fix video aspect ratio on all devices */
+section video {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: cover !important;
+}
+
+/* Mobile specific fixes */
+@media (max-width: 768px) {
+  /* Ensure hero section fills screen */
+  section {
+    height: 100vh !important;
+    height: 100dvh !important; /* Dynamic viewport for mobile browsers */
+    overflow: hidden !important;
+  }
+  
+  /* Force video to cover entire area */
+  section video {
+    max-width: none !important;
+    max-height: none !important;
+  }
+}
+
+/* iOS Safari specific fix */
+@supports (-webkit-touch-callout: none) {
+  section {
+    height: -webkit-fill-available !important;
+  }
 }

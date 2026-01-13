@@ -14,17 +14,14 @@ export default function Splash({ onComplete }: SplashProps) {
       setFontsLoaded(true);
     });
 
-    // Fallback in case fonts take too long
     const fontTimeout = setTimeout(() => {
       setFontsLoaded(true);
     }, 500);
 
-    // Start fade out after 3 seconds
     const timer = setTimeout(() => {
       setFadeOut(true);
     }, 3000);
 
-    // Call onComplete after fade animation
     const completeTimer = setTimeout(() => {
       onComplete();
     }, 3800);
@@ -36,7 +33,6 @@ export default function Splash({ onComplete }: SplashProps) {
     };
   }, [onComplete]);
 
-  // Don't render until fonts are ready
   if (!fontsLoaded) {
     return (
       <div
@@ -83,17 +79,18 @@ export default function Splash({ onComplete }: SplashProps) {
         background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1810 50%, #1a1a1a 100%)',
         opacity: fadeOut ? 0 : 1,
         transition: 'opacity 0.8s ease-in-out',
+        padding: '1rem', // Mobile padding
       }}
     >
-      {/* Particles */}
+      {/* Particles - Adjusted for mobile */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
         {[
-          { top: '10%', left: '15%', size: 8, color: '#D32F2F', opacity: 0.3, delay: '0s' },
-          { top: '20%', right: '20%', size: 12, color: '#FFA726', opacity: 0.2, delay: '0.2s' },
-          { bottom: '30%', left: '25%', size: 8, color: '#D32F2F', opacity: 0.4, delay: '0.4s' },
-          { bottom: '15%', right: '30%', size: 16, color: '#FFA726', opacity: 0.3, delay: '0.6s' },
-          { top: '40%', left: '10%', size: 8, color: '#D32F2F', opacity: 0.25, delay: '0.8s' },
-          { top: '60%', right: '15%', size: 12, color: '#FFA726', opacity: 0.35, delay: '1s' },
+          { top: '10%', left: '10%', size: 6, color: '#D32F2F', opacity: 0.3, delay: '0s' },
+          { top: '20%', right: '15%', size: 8, color: '#FFA726', opacity: 0.2, delay: '0.2s' },
+          { bottom: '30%', left: '20%', size: 6, color: '#D32F2F', opacity: 0.4, delay: '0.4s' },
+          { bottom: '15%', right: '25%', size: 10, color: '#FFA726', opacity: 0.3, delay: '0.6s' },
+          { top: '40%', left: '5%', size: 6, color: '#D32F2F', opacity: 0.25, delay: '0.8s' },
+          { top: '60%', right: '10%', size: 8, color: '#FFA726', opacity: 0.35, delay: '1s' },
         ].map((particle, i) => (
           <div
             key={i}
@@ -124,23 +121,30 @@ export default function Splash({ onComplete }: SplashProps) {
         }}
       />
 
-      {/* Main Content */}
-      <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 2rem' }}>
-        {/* IZGARA Title - GUARANTEED VISIBLE */}
+      {/* Main Content - MOBILE RESPONSIVE */}
+      <div style={{ 
+        position: 'relative', 
+        zIndex: 10, 
+        textAlign: 'center', 
+        padding: '0 1rem',
+        width: '100%',
+        maxWidth: '90vw',
+      }}>
+        {/* IZGARA Title - RESPONSIVE */}
         <h1
           style={{
             fontFamily: "'Playfair Display', Georgia, serif",
             fontWeight: 900,
-            fontSize: 'clamp(5rem, 15vw, 12rem)',
-            letterSpacing: '0.2em',
-            margin: '0 0 2rem 0',
+            fontSize: 'clamp(3rem, 12vw, 12rem)', // Mobile: starts at 3rem
+            letterSpacing: 'clamp(0.1em, 0.2em, 0.2em)',
+            margin: '0 0 1.5rem 0',
             padding: 0,
             lineHeight: 1,
             background: 'linear-gradient(135deg, #FFFAF0 0%, #FFA726 50%, #D32F2F 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            filter: 'drop-shadow(0 0 30px rgba(211, 47, 47, 0.6)) drop-shadow(0 10px 50px rgba(255, 167, 38, 0.4))',
+            filter: 'drop-shadow(0 0 20px rgba(211, 47, 47, 0.5)) drop-shadow(0 5px 30px rgba(255, 167, 38, 0.3))',
             animation: 'fadeInScale 1.2s ease-out',
             animationFillMode: 'both',
           }}
@@ -148,15 +152,15 @@ export default function Splash({ onComplete }: SplashProps) {
           IZGARA
         </h1>
 
-        {/* Decorative Line */}
+        {/* Decorative Line - RESPONSIVE */}
         <div
           style={{
-            width: '16rem',
-            height: '4px',
-            margin: '0 auto 2rem auto',
+            width: 'clamp(12rem, 80%, 16rem)', // Mobile: smaller
+            height: '3px',
+            margin: '0 auto 1.5rem auto',
             borderRadius: '2px',
             background: 'linear-gradient(90deg, transparent, #FFA726, #D32F2F, #FFA726, transparent)',
-            boxShadow: '0 0 20px rgba(255, 167, 38, 0.6)',
+            boxShadow: '0 0 15px rgba(255, 167, 38, 0.5)',
             animation: 'scaleInLine 1s ease-out 0.5s',
             animationFillMode: 'both',
             transformOrigin: 'center',
@@ -172,16 +176,16 @@ export default function Splash({ onComplete }: SplashProps) {
           />
         </div>
 
-        {/* PARIS Subtitle */}
+        {/* PARIS Subtitle - RESPONSIVE */}
         <p
           style={{
             fontFamily: "'Inter', Arial, sans-serif",
             fontWeight: 300,
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            letterSpacing: '0.5em',
+            fontSize: 'clamp(1.2rem, 4vw, 2.5rem)', // Mobile: smaller
+            letterSpacing: 'clamp(0.3em, 0.5em, 0.5em)',
             textTransform: 'uppercase',
             color: '#FFA726',
-            textShadow: '0 0 30px rgba(255, 167, 38, 0.8)',
+            textShadow: '0 0 20px rgba(255, 167, 38, 0.6)',
             margin: '0 0 1rem 0',
             animation: 'fadeInSimple 0.8s ease-out 0.8s',
             animationFillMode: 'both',
@@ -190,12 +194,12 @@ export default function Splash({ onComplete }: SplashProps) {
           PARIS
         </p>
 
-        {/* Tagline */}
+        {/* Tagline - RESPONSIVE */}
         <p
           style={{
             fontFamily: "'Inter', Arial, sans-serif",
-            fontSize: '0.9rem',
-            letterSpacing: '0.3em',
+            fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)', // Mobile: readable
+            letterSpacing: 'clamp(0.2em, 0.3em, 0.3em)',
             color: 'rgba(245, 245, 220, 0.6)',
             margin: 0,
             animation: 'fadeInSimple 0.8s ease-out 1.2s',
@@ -206,15 +210,15 @@ export default function Splash({ onComplete }: SplashProps) {
         </p>
       </div>
 
-      {/* Bottom Accent */}
+      {/* Bottom Accent - SMALLER ON MOBILE */}
       <div
         style={{
           position: 'absolute',
-          bottom: '3rem',
+          bottom: 'clamp(2rem, 5vh, 3rem)',
           left: '50%',
           transform: 'translateX(-50%)',
           width: '2px',
-          height: '3rem',
+          height: 'clamp(2rem, 5vh, 3rem)',
           background: 'linear-gradient(to bottom, transparent, rgba(255, 167, 38, 0.5), transparent)',
           animation: 'fadeInSimple 0.8s ease-out 1.5s, pulse 2s ease-in-out infinite 2s',
           animationFillMode: 'both',
@@ -222,12 +226,12 @@ export default function Splash({ onComplete }: SplashProps) {
         }}
       />
 
-      {/* All Animations Inline */}
+      {/* Animations */}
       <style>{`
         @keyframes fadeInScale {
           0% {
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
+            transform: translateY(20px) scale(0.95);
           }
           100% {
             opacity: 1;

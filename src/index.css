@@ -417,11 +417,13 @@ a:focus {
 }
 
 /* ========================================
-   HERO VIDEO MOBILE FIX
+   HERO VIDEO MOBILE FIX (HERO SECTION ONLY)
    ======================================== */
 
-/* Fix video aspect ratio on all devices */
-section video {
+/* Fix video aspect ratio on all devices - ONLY FOR HERO */
+section#hero video,
+section.hero video,
+.hero-section video {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
@@ -433,25 +435,38 @@ section video {
   object-fit: cover !important;
 }
 
-/* Mobile specific fixes */
+/* Mobile specific fixes - ONLY FOR HERO */
 @media (max-width: 768px) {
-  /* Ensure hero section fills screen */
-  section {
+  /* Ensure HERO section fills screen */
+  section#hero,
+  section.hero,
+  .hero-section {
     height: 100vh !important;
-    height: 100dvh !important; /* Dynamic viewport for mobile browsers */
+    height: 100dvh !important;
     overflow: hidden !important;
   }
   
   /* Force video to cover entire area */
-  section video {
+  section#hero video,
+  section.hero video,
+  .hero-section video {
     max-width: none !important;
     max-height: none !important;
   }
+  
+  /* OTHER sections should be auto height */
+  section:not(#hero):not(.hero):not(.hero-section) {
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
 }
 
-/* iOS Safari specific fix */
+/* iOS Safari specific fix - ONLY FOR HERO */
 @supports (-webkit-touch-callout: none) {
-  section {
+  section#hero,
+  section.hero,
+  .hero-section {
     height: -webkit-fill-available !important;
   }
 }

@@ -63,15 +63,15 @@ export const Welcome = () => {
               {t.overline}
             </p>
             
-            <h2 className="font-playfair text-5xl md:text-6xl text-charcoal leading-tight">
+            <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-charcoal leading-tight">
               {t.title}
             </h2>
             
-            <h3 className="font-inter text-2xl text-flame-red font-semibold">
+            <h3 className="font-inter text-xl md:text-2xl text-flame-red font-semibold">
               {t.subtitle}
             </h3>
             
-            <div className="space-y-4 text-charcoal/80 font-inter text-lg leading-relaxed">
+            <div className="space-y-4 text-charcoal/80 font-inter text-base md:text-lg leading-relaxed">
               <p>{t.paragraph1}</p>
               <p>{t.paragraph2}</p>
               <p>{t.paragraph3}</p>
@@ -88,18 +88,18 @@ export const Welcome = () => {
             </a>
           </div>
 
-          {/* Right: Image */}
-          <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-cream">
+          {/* Right: Image - Mobile First */}
+          <div className="relative order-first md:order-last">
+            <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 md:border-8 border-cream">
               <LazyImage
                 src="/images/welcome/owner.jpeg"
                 alt="Izgara Restaurant Owner"
-                className="w-full h-[600px] object-cover"
+                className="w-full h-[400px] md:h-[600px] object-cover"
               />
             </div>
             
             {/* Decorative Element */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-golden-yellow rounded-full opacity-20 blur-3xl -z-10" />
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 md:w-32 md:h-32 bg-golden-yellow rounded-full opacity-20 blur-3xl -z-10" />
           </div>
         </div>
       </div>

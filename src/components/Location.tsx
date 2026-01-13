@@ -42,21 +42,21 @@ export default function Location() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-playfair text-5xl md:text-6xl mb-6">
+          <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl mb-6">
             {t.title}
           </h2>
-          <p className="font-inter text-xl text-white/80 max-w-2xl mx-auto">
+          <p className="font-inter text-lg md:text-xl text-white/80 max-w-2xl mx-auto">
             {t.subtitle}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Map - Clickable to open Google Maps */}
+          {/* Map - Clickable to open Google Maps - MOBILE RESPONSIVE */}
           <a
             href={googleMapsLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative h-96 rounded-2xl overflow-hidden shadow-2xl block group cursor-pointer"
+            className="relative h-64 md:h-96 rounded-2xl overflow-hidden shadow-2xl block group cursor-pointer"
           >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d656.4560397677668!2d2.3489604!3d48.8439342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671944ed38d2d%3A0xd58b7f4e661bedd9!2sIZGARA!5e0!3m2!1sen!2sfr!4v1705156800000!5m2!1sen!2sfr"
@@ -71,40 +71,40 @@ export default function Location() {
             />
             {/* Hover overlay */}
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-              <span className="opacity-0 group-hover:opacity-100 bg-white text-charcoal px-6 py-3 rounded-full font-inter font-bold shadow-xl transition-all duration-300 transform scale-90 group-hover:scale-100">
+              <span className="opacity-0 group-hover:opacity-100 bg-white text-charcoal px-4 md:px-6 py-2 md:py-3 rounded-full font-inter font-bold text-sm md:text-base shadow-xl transition-all duration-300 transform scale-90 group-hover:scale-100">
                 {currentLanguage === 'fr' ? 'Ouvrir dans Google Maps' : 'Open in Google Maps'}
               </span>
             </div>
           </a>
 
-          {/* Info Card */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 space-y-6">
+          {/* Info Card - MOBILE RESPONSIVE */}
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8 space-y-6">
             {/* Address */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
-                <FaMapMarkerAlt className="text-xl text-white" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
+                <FaMapMarkerAlt className="text-lg md:text-xl text-white" />
               </div>
               <div>
-                <h3 className="font-playfair text-xl text-golden-yellow mb-2">
+                <h3 className="font-playfair text-lg md:text-xl text-golden-yellow mb-2">
                   {currentLanguage === 'fr' ? 'Adresse' : 'Address'}
                 </h3>
-                <p className="font-inter text-white/90">{t.address}</p>
-                <p className="font-inter text-white/90">{t.city}</p>
+                <p className="font-inter text-sm md:text-base text-white/90">{t.address}</p>
+                <p className="font-inter text-sm md:text-base text-white/90">{t.city}</p>
               </div>
             </div>
 
             {/* Phone */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
-                <FaPhone className="text-xl text-white" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
+                <FaPhone className="text-lg md:text-xl text-white" />
               </div>
               <div>
-                <h3 className="font-playfair text-xl text-golden-yellow mb-2">
+                <h3 className="font-playfair text-lg md:text-xl text-golden-yellow mb-2">
                   {currentLanguage === 'fr' ? 'Téléphone' : 'Phone'}
                 </h3>
                 <a
                   href={`tel:${t.phone.replace(/\s/g, '')}`}
-                  className="font-inter text-white/90 hover:text-golden-yellow transition-colors"
+                  className="font-inter text-sm md:text-base text-white/90 hover:text-golden-yellow transition-colors"
                 >
                   {t.phone}
                 </a>
@@ -113,14 +113,14 @@ export default function Location() {
 
             {/* Hours */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
-                <FaClock className="text-xl text-white" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-flame-red to-golden-yellow flex items-center justify-center flex-shrink-0">
+                <FaClock className="text-lg md:text-xl text-white" />
               </div>
               <div>
-                <h3 className="font-playfair text-xl text-golden-yellow mb-2">
+                <h3 className="font-playfair text-lg md:text-xl text-golden-yellow mb-2">
                   {currentLanguage === 'fr' ? 'Horaires' : 'Hours'}
                 </h3>
-                <p className="font-inter text-white/90">{t.hours}</p>
+                <p className="font-inter text-sm md:text-base text-white/90">{t.hours}</p>
               </div>
             </div>
 
@@ -129,7 +129,7 @@ export default function Location() {
               href={googleMapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-gradient-to-r from-flame-red to-golden-yellow hover:from-golden-yellow hover:to-flame-red text-white font-inter font-bold text-center py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
+              className="block w-full bg-gradient-to-r from-flame-red to-golden-yellow hover:from-golden-yellow hover:to-flame-red text-white font-inter font-bold text-center py-3 md:py-4 text-sm md:text-base rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
             >
               {t.directions}
             </a>

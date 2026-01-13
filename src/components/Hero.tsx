@@ -13,11 +13,12 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative w-full overflow-hidden"
+      id="hero"
+      className="hero-section relative w-full overflow-hidden"
       style={{ 
         backgroundColor: '#000',
         height: '100vh',
-        minHeight: '100dvh', // Dynamic viewport height for mobile
+        minHeight: '100dvh',
         width: '100vw',
         position: 'relative',
       }}
